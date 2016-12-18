@@ -4,21 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MazeSolver
+namespace Maze
 {
     class Program
     {
+
         static void Main(string[] args)
         {
+            // To be used when program is complete
+            /*
             if (args.Length == 2)
             {
-                // run code
+                // run program
             }
             else
             {
                 Console.WriteLine("Wrong number of arguments.");
-                Console.WriteLine("Format: ");
+                Console.WriteLine("Format: maze.exe \"source.[bmp,png,jpg]\" \"destination.[bmp,png,jpg]\"");
             }
+            */
         }
     }
 }
