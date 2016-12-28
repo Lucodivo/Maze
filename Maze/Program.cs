@@ -11,6 +11,8 @@ namespace Maze
 
         static void Main(string[] args)
         {
+            Maze testMaze = new Maze(new System.Drawing.Bitmap(Maze.MAZE_PICTURE_1));
+
             // To be used when program is complete
             /*
             if (args.Length == 2)

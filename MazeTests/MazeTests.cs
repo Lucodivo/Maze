@@ -17,21 +17,25 @@ namespace Maze.Tests
         [TestInitialize()]
         public void Initialize()
         {
-            m = new Maze(Maze.MAZE_PICTURE_1);
+            ///
         }
 
         [TestMethod()]
-        public void ColorTest()
+        public void Maze1_Initialized_Test()
         {
-            Color c = m.getTopLeftPixel();
+            m = new Maze(new Bitmap(Maze.MAZE_PICTURE_1));
 
-            byte expectedRed = 0;
-            byte expectedGreen = 0;
-            byte expectedBlue = 0;
+            int expectedWidth = 441;
+            int expectedHeight = 441;
 
-            Assert.AreEqual(expectedRed, c.R);
-            Assert.AreEqual(expectedGreen, c.G);
-            Assert.AreEqual(expectedBlue, c.B);
+            Assert.AreEqual(expectedWidth, m.width);
+            Assert.AreEqual(expectedHeight, m.height);
+
+            TileIndex expectedStartIndex = new TileIndex(1, 396);
+            TileIndex expectedFinishIndex = new TileIndex(221, 397);
+
+            Assert.AreEqual(expectedStartIndex, m.startPoint);
+            Assert.AreEqual(expectedFinishIndex, m.finishPoint);
         }
     }
 }
