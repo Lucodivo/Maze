@@ -31,11 +31,15 @@ namespace Maze.Tests
             Assert.AreEqual(expectedWidth, m.width);
             Assert.AreEqual(expectedHeight, m.height);
 
-            TileIndex expectedStartIndex = new TileIndex(1, 396);
-            TileIndex expectedFinishIndex = new TileIndex(221, 397);
+            int expectedStartX = 1;
+            int expectedStartY = 396;
+            int expectedFinishX = 221;
+            int expectedFinishY = 397;
 
-            Assert.AreEqual(expectedStartIndex, m.startPoint);
-            Assert.AreEqual(expectedFinishIndex, m.finishPoint);
+            Assert.AreEqual(expectedStartX, m.startTile.x);
+            Assert.AreEqual(expectedStartY, m.startTile.y);
+            Assert.AreEqual(expectedFinishX, m.finishTile.x);
+            Assert.AreEqual(expectedFinishY, m.finishTile.y);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,9 @@ namespace Maze
 
         static void Main(string[] args)
         {
-            Maze testMaze = new Maze(new System.Drawing.Bitmap(Maze.MAZE_PICTURE_1));
+            Maze testMaze = new Maze(new Bitmap(Maze.MAZE_PICTURE_3));
+            Bitmap solvedMaze = testMaze.solve();
+            solvedMaze.Save(Maze.MAZE_PICTURE_3_SOLVED);
 
             // To be used when program is complete
             /*

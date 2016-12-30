@@ -22,15 +22,17 @@ namespace Maze
     /// <summary>
     /// 
     /// </summary>
-    public struct TileIndex
+    public class TileNode
     {
         public int x;
         public int y;
+        public TileNode prev;
 
-        public TileIndex(int x, int y)
+        public TileNode(int x, int y, TileNode p)
         {
             this.x = x;
             this.y = y;
+            this.prev = p;
         }
     }
 
@@ -43,6 +45,9 @@ namespace Maze
         public const String MAZE_PICTURE_1 = "C:\\Users\\Connor\\Desktop\\MazeC#\\maze1.png";
         public const String MAZE_PICTURE_2 = "C:\\Users\\Connor\\Desktop\\MazeC#\\maze2.png";
         public const String MAZE_PICTURE_3 = "C:\\Users\\Connor\\Desktop\\MazeC#\\maze3.png";
+        public const String MAZE_PICTURE_1_SOLVED = "C:\\Users\\Connor\\Desktop\\MazeC#\\maze1solved.png";
+        public const String MAZE_PICTURE_2_SOLVED = "C:\\Users\\Connor\\Desktop\\MazeC#\\maze2solved.png";
+        public const String MAZE_PICTURE_3_SOLVED = "C:\\Users\\Connor\\Desktop\\MazeC#\\maze3solved.png";
 
         private const int BLACK_WALL_THRESHOLD = 64;
         private const int WHITE_EMPTY_THRESHOLD = 220;
@@ -51,11 +56,12 @@ namespace Maze
         private const int R_FINISH_THRESHOLD = 180;
         private const int GB_FINISH_THRESHOLD = 85;
 
+        private Bitmap originalBitmap;
         private Tile [][] maze;
         public int width { get; private set; }
         public int height { get; private set; }
-        public TileIndex startPoint { get; private set; }
-        public TileIndex finishPoint { get; private set; }
+        public TileNode startTile { get; private set; }
+        public TileNode finishTile { get; private set; }
 
         /// <summary>
         /// 
@@ -63,6 +69,7 @@ namespace Maze
         /// <param name="mazeBitmap"></param>
         public Maze(Bitmap mazeBitmap)
         {
+            this.originalBitmap = mazeBitmap;
             this.width = mazeBitmap.Width;
             this.height = mazeBitmap.Height;
             this.setTilesFromBitmap(mazeBitmap);
@@ -78,7 +85,7 @@ namespace Maze
             bool lookingForStart = true;
             bool lookingForFinish = true;
 
-            for(int i = 0; i < this.width; ++i)
+            for(int i = 0; i < this.height; ++i)
             {
                 maze[i] = new Tile[this.width];
 
@@ -96,12 +103,12 @@ namespace Maze
                         if (lookingForStart && isStart(pixel))
                         {
                             lookingForStart = false;
-                            startPoint = new TileIndex(j, i);
+                            startTile = new TileNode(j, i, null);
                         }
                         else if (lookingForFinish && isFinish(pixel))
                         {
                             lookingForFinish = false;
-                            finishPoint = new TileIndex(j, i);
+                            finishTile = new TileNode(j, i, null);
                         }
                     }
                 }
@@ -116,6 +123,51 @@ namespace Maze
         ~Maze()
         {
             // close any files, windows, or network connections
+        }
+
+        public Bitmap solve()
+        {
+            Queue<TileNode> frontier = new Queue<TileNode>();
+            frontier.Enqueue(startTile);
+
+            TileNode currentTile;
+            while (frontier.Count > 0)
+            {
+                currentTile = frontier.Dequeue();
+                if(currentTile.x == finishTile.x && currentTile.y == finishTile.y)
+                {
+                    while(currentTile.prev != null)
+                    {
+                        this.originalBitmap.SetPixel(currentTile.x, currentTile.y, Color.Green);
+                        currentTile = currentTile.prev;
+                    }
+
+                    return this.originalBitmap;
+                }
+
+                if(this.maze[currentTile.y - 1][currentTile.x].isEmpty)
+                {
+                    frontier.Enqueue(new TileNode(currentTile.x, currentTile.y - 1, currentTile));
+                    this.maze[currentTile.y - 1][currentTile.x].isEmpty = false;
+                }
+                if (this.maze[currentTile.y + 1][currentTile.x].isEmpty)
+                {
+                    frontier.Enqueue(new TileNode(currentTile.x, currentTile.y + 1, currentTile));
+                    this.maze[currentTile.y + 1][currentTile.x].isEmpty = false;
+                }
+                if (this.maze[currentTile.y][currentTile.x - 1].isEmpty)
+                {
+                    frontier.Enqueue(new TileNode(currentTile.x - 1, currentTile.y, currentTile));
+                    this.maze[currentTile.y][currentTile.x - 1].isEmpty = false;
+                }
+                if (this.maze[currentTile.y][currentTile.x + 1].isEmpty)
+                {
+                    frontier.Enqueue(new TileNode(currentTile.x + 1, currentTile.y, currentTile));
+                    this.maze[currentTile.y][currentTile.x + 1].isEmpty = false;
+                }
+            }
+            
+            return null;
         }
 
         /// <summary>
