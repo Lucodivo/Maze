@@ -127,11 +127,11 @@ namespace Maze
         public Bitmap solve()
         {
             // create a frontier and enqueue the starting tile
-            Queue<TileNode> frontier = new Queue<TileNode>();
+            Frontier<TileNode> frontier = new BFSFrontier<TileNode>();
             frontier.Enqueue(startTile);
             
             // while there are still nodes to be visited in the frontier
-            while (frontier.Count > 0)
+            while (!frontier.isEmpty())
             {
                 // visit node
                 TileNode currentTile = frontier.Dequeue();
