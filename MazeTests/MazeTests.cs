@@ -13,13 +13,13 @@ namespace Maze.Tests
     public class MazeTests
     {
         // test maze image location
-        public const String MAZE_PICTURE_1 = "C:\\Users\\Connor\\Desktop\\MazeC#\\maze1.png";
-        public const String MAZE_PICTURE_2 = "C:\\Users\\Connor\\Desktop\\MazeC#\\maze2.png";
-        public const String MAZE_PICTURE_3 = "C:\\Users\\Connor\\Desktop\\MazeC#\\maze3.png";
+        public const String MAZE_PICTURE_1 = "..\\..\\..\\TestData\\maze1.png";
+        public const String MAZE_PICTURE_2 = "..\\..\\..\\TestData\\maze2.png";
+        public const String MAZE_PICTURE_3 = "..\\..\\..\\TestData\\maze3.png";
         // test maze image solved saving locations
-        public const String MAZE_PICTURE_1_SOLVED = "C:\\Users\\Connor\\Desktop\\MazeC#\\maze1solved.png";
-        public const String MAZE_PICTURE_2_SOLVED = "C:\\Users\\Connor\\Desktop\\MazeC#\\maze2solved.png";
-        public const String MAZE_PICTURE_3_SOLVED = "C:\\Users\\Connor\\Desktop\\MazeC#\\maze3solved.png";
+        public const String MAZE_PICTURE_1_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze1solved.png";
+        public const String MAZE_PICTURE_2_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze2solved.png";
+        public const String MAZE_PICTURE_3_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze3solved.png";
 
         private Maze m;
 
@@ -36,6 +36,8 @@ namespace Maze.Tests
         public void Maze1_Initialization_Test()
         {
             m = new Maze(new Bitmap(MAZE_PICTURE_1));
+
+            Assert.IsNotNull(m);
 
             // dimensions of maze1.png
             int expectedWidth = 441;
