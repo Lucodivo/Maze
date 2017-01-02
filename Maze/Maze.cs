@@ -156,7 +156,7 @@ namespace Maze
                 int upperX = currentTile.x + 1;
                 int lowerY = currentTile.y - 1;
                 int upperY = currentTile.y + 1;
-                int nextDepth = currentTile.depth + 1;
+                int nextDepth = currentTile.cost + 1;
 
                 // enqueue diagonal moves
                 // need to be handled uniquely due to the potential for clipping
