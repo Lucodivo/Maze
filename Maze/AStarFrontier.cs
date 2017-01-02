@@ -6,24 +6,33 @@ using System.Threading.Tasks;
 
 namespace Maze
 {
-    abstract class AStarFrontier<T> : Frontier<T>
+    abstract class AStarFrontier : Frontier<TileNode>
     {
+        PriorityQueue<TileNode> queue;
+        protected TileNode finishTile;
 
-
-
-        public T Dequeue()
+        public AStarFrontier(TileNode finishTile)
         {
-            throw new NotImplementedException();
+            this.finishTile = finishTile;
+            queue = new PriorityQueue<TileNode>(new TileNodeComparer());
         }
 
-        public void Enqueue(T element)
+        public TileNode Dequeue()
         {
-            throw new NotImplementedException();
+            return queue.remove();
         }
+
+        public void Enqueue(TileNode element)
+        {
+            element = heuristic(element);
+            queue.add(element);
+        }
+
+        abstract protected TileNode heuristic(TileNode element);
 
         public bool isEmpty()
         {
-            throw new NotImplementedException();
+            return (queue.count == 0);
         }
     }
 }

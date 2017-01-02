@@ -48,6 +48,7 @@
     <Compile Include="BFSFrontier.cs" />
     <Compile Include="IntComparer.cs" />
     <Compile Include="Frontier.cs" />
+    <Compile Include="ManhattanAStarFrontier.cs" />
     <Compile Include="Maze.cs" />
     <Compile Include="PriorityQueue.cs" />
     <Compile Include="Program.cs" />
