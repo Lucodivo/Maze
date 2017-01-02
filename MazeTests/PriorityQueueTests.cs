@@ -11,6 +11,9 @@ namespace MazeTests
     [TestClass()]
     public class PriorityQueueTests
     {
+        /// <summary>
+        /// Tests expansion of capacity and 
+        /// </summary>
         [TestMethod()]
         public void IntPriorityQueueTest1()
         {
@@ -24,6 +27,9 @@ namespace MazeTests
             pq.add(687);
             pq.add(9954);
             pq.add(13);
+            Assert.AreEqual(4, pq.remove());
+            Assert.AreEqual(7, pq.remove());
+            Assert.AreEqual(13, pq.remove());
             pq.add(64);
             pq.add(128);
             pq.add(344);
@@ -32,9 +38,6 @@ namespace MazeTests
             pq.add(136);
             pq.add(640);
             pq.add(256);
-            Assert.AreEqual(4, pq.remove());
-            Assert.AreEqual(7, pq.remove());
-            Assert.AreEqual(13, pq.remove());
             Assert.AreEqual(34, pq.remove());
             Assert.AreEqual(64, pq.remove());
             Assert.AreEqual(128, pq.remove());

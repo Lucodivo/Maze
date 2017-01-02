@@ -84,7 +84,8 @@ namespace Maze
             {
                 int leftChildIndex = (rootIndex * 2) + 1;
                 int rightChildIndex = (rootIndex * 2) + 2;
-                if (this.comparer.Compare(this.queue[rootIndex], this.queue[leftChildIndex]) > 0)
+                if (this.comparer.Compare(this.queue[rootIndex], this.queue[leftChildIndex]) > 0
+                    || this.comparer.Compare(this.queue[rootIndex], this.queue[rightChildIndex]) > 0)
                 {
                     if (this.comparer.Compare(this.queue[leftChildIndex], this.queue[rightChildIndex]) > 0)
                     {
