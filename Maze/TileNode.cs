@@ -13,12 +13,14 @@ namespace Maze
     {
         public int x;
         public int y;
+        public int depth;
         public TileNode prev;
 
-        public TileNode(int x, int y, TileNode p)
+        public TileNode(int x, int y, int depth, TileNode p)
         {
             this.x = x;
             this.y = y;
+            this.depth = depth;
             this.prev = p;
         }
     }

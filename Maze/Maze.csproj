@@ -44,9 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AStarFrontier.cs" />
     <Compile Include="BFSFrontier.cs" />
+    <Compile Include="Comparer.cs" />
     <Compile Include="Frontier.cs" />
     <Compile Include="Maze.cs" />
+    <Compile Include="PriorityQueue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TileNode.cs" />

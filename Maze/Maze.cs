@@ -96,12 +96,12 @@ namespace Maze
                         if (lookingForStart && isStart(pixel))
                         {
                             lookingForStart = false;
-                            startTile = new TileNode(j, i, null);
+                            startTile = new TileNode(j, i, 0, null);
                         }
                         else if (lookingForFinish && isFinish(pixel))
                         {
                             lookingForFinish = false;
-                            finishTile = new TileNode(j, i, null);
+                            finishTile = new TileNode(j, i, -1, null);
                         }
                     }
                 }
@@ -156,6 +156,7 @@ namespace Maze
                 int upperX = currentTile.x + 1;
                 int lowerY = currentTile.y - 1;
                 int upperY = currentTile.y + 1;
+                int nextDepth = currentTile.depth + 1;
 
                 // enqueue diagonal moves
                 // need to be handled uniquely due to the potential for clipping
@@ -165,50 +166,50 @@ namespace Maze
                     && (this.maze[lowerY][currentTile.x].isEmpty
                     || this.maze[currentTile.y][lowerX].isEmpty))
                 {
-                    frontier.Enqueue(new TileNode(lowerX, lowerY, currentTile));
+                    frontier.Enqueue(new TileNode(lowerX, lowerY, nextDepth, currentTile));
                     this.maze[lowerY][lowerX].isEmpty = false;
                 }
                 if (this.maze[lowerY][upperX].isEmpty
                     && (this.maze[lowerY][currentTile.x].isEmpty
                     || this.maze[currentTile.y][upperX].isEmpty))
                 {
-                    frontier.Enqueue(new TileNode(upperX, lowerY, currentTile));
+                    frontier.Enqueue(new TileNode(upperX, lowerY, nextDepth, currentTile));
                     this.maze[lowerY][upperX].isEmpty = false;
                 }
                 if (this.maze[upperY][upperX].isEmpty
                     && (this.maze[currentTile.y][upperX].isEmpty
                     || this.maze[upperY][currentTile.x].isEmpty))
                 {
-                    frontier.Enqueue(new TileNode(upperX, upperY, currentTile));
+                    frontier.Enqueue(new TileNode(upperX, upperY, nextDepth, currentTile));
                     this.maze[upperY][upperX].isEmpty = false;
                 }
                 if (this.maze[upperY][lowerX].isEmpty
                     && (this.maze[upperY][currentTile.x].isEmpty
                     || this.maze[currentTile.y][lowerX].isEmpty))
                 {
-                    frontier.Enqueue(new TileNode(lowerX, upperY, currentTile));
+                    frontier.Enqueue(new TileNode(lowerX, upperY, nextDepth, currentTile));
                     this.maze[upperY][lowerX].isEmpty = false;
                 }
 
                 // enqueue lateral moves
                 if (this.maze[lowerY][currentTile.x].isEmpty)
                 {
-                    frontier.Enqueue(new TileNode(currentTile.x, lowerY, currentTile));
+                    frontier.Enqueue(new TileNode(currentTile.x, lowerY, nextDepth, currentTile));
                     this.maze[lowerY][currentTile.x].isEmpty = false;
                 }
                 if (this.maze[currentTile.y][upperX].isEmpty)
                 {
-                    frontier.Enqueue(new TileNode(upperX, currentTile.y, currentTile));
+                    frontier.Enqueue(new TileNode(upperX, currentTile.y, nextDepth, currentTile));
                     this.maze[currentTile.y][upperX].isEmpty = false;
                 }
                 if (this.maze[upperY][currentTile.x].isEmpty)
                 {
-                    frontier.Enqueue(new TileNode(currentTile.x, upperY, currentTile));
+                    frontier.Enqueue(new TileNode(currentTile.x, upperY, nextDepth, currentTile));
                     this.maze[upperY][currentTile.x].isEmpty = false;
                 }
                 if (this.maze[currentTile.y][lowerX].isEmpty)
                 {
-                    frontier.Enqueue(new TileNode(lowerX, currentTile.y, currentTile));
+                    frontier.Enqueue(new TileNode(lowerX, currentTile.y, nextDepth, currentTile));
                     this.maze[currentTile.y][lowerX].isEmpty = false;
                 }
             }
