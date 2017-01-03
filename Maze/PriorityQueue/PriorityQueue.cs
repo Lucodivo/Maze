@@ -21,9 +21,7 @@ namespace Maze
             this.comparer = comp;
         }
 
-        public PriorityQueue(IComparer<T> comp) : this(16, comp)
-        {
-        }
+        public PriorityQueue(IComparer<T> comp) : this(16, comp) { }
 
         public void add(T element)
         {

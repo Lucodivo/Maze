@@ -33,11 +33,13 @@ namespace Maze
         private const int BLACK_WALL_THRESHOLD = 64;
         private const int WHITE_EMPTY_THRESHOLD = 220;
         // threshold for RGB values for determining "blue"
-        private const int B_START_THRESHOLD = 210;
-        private const int RG_START_THRESHOLD = 50;
+        private const int R_START_THRESHOLD = 65;
+        private const int G_START_THRESHOLD = 180;
+        private const int B_START_THRESHOLD = 190;
         // threshold for RGB values for determining "red"
         private const int R_FINISH_THRESHOLD = 180;
-        private const int GB_FINISH_THRESHOLD = 85;
+        private const int G_FINISH_THRESHOLD = 40;
+        private const int B_FINISH_THRESHOLD = 140;
 
         // original bitmap stored for drawing solution
         private Bitmap originalBitmap;
@@ -74,6 +76,10 @@ namespace Maze
             this.maze = new Tile[this.height][];
             bool lookingForStart = true;
             bool lookingForFinish = true;
+            Point topLeftStart = new Point(0, 0);
+            Point bottomRightStart = new Point(0, 0);
+            Point topLeftFinish = new Point(0, 0);
+            Point bottomRightFinish = new Point(0, 0);
 
             for(int i = 0; i < this.height; ++i)
             {
@@ -93,25 +99,46 @@ namespace Maze
                     else
                     {
                         maze[i][j].isEmpty = true;
-                        if (lookingForStart && isStart(pixel))
+                        if (isStart(pixel))
                         {
-                            lookingForStart = false;
-                            startTile = new TileNode(j, i, 0, null);
+                            if(lookingForStart)
+                            {
+                                lookingForStart = false;
+                                topLeftStart.X = j;
+                                topLeftStart.Y = i;
+                            }
+                            bottomRightStart.X = j;
+                            bottomRightStart.Y = i;
                         }
-                        else if (lookingForFinish && isFinish(pixel))
+                        else if (isFinish(pixel))
                         {
-                            lookingForFinish = false;
-                            finishTile = new TileNode(j, i, -1, null);
+                            if(lookingForFinish)
+                            {
+                                lookingForFinish = false;
+                                topLeftFinish.X = j;
+                                topLeftFinish.Y = i;
+                            }
+                            bottomRightFinish.X = j;
+                            bottomRightFinish.Y = i;
                         }
+                        // TODO: Error if it is not empty
                     }
                 }
             }
 
             // if we never found start or finish, the bitmap is doesn't follow the specified rules
-            if(lookingForStart || lookingForFinish)
+            if(topLeftStart == new Point(0, 0) || topLeftFinish == new Point(0, 0))
             {
-                // TODO: throw error
+                throw (new UnacceptableMazeImageException("Image does not contain a proper maze"));
             }
+
+            startTile = new TileNode();
+            startTile.X = (topLeftStart.X + bottomRightStart.X) / 2;
+            startTile.Y = (topLeftStart.Y + bottomRightStart.Y) / 2;
+            finishTile = new TileNode();
+            finishTile.X = (topLeftFinish.X + bottomRightFinish.X) / 2;
+            finishTile.Y = (topLeftFinish.Y + bottomRightFinish.Y) / 2;
+            
         }
 
         ~Maze()
@@ -136,15 +163,15 @@ namespace Maze
                 // visit node
                 TileNode currentTile = frontier.Dequeue();
                 // if node is at ending position, we simply need to return the solution
-                if(currentTile.x == finishTile.x && currentTile.y == finishTile.y)
+                if(currentTile.X == finishTile.X && currentTile.Y == finishTile.Y)
                 {
                     // while the current node isn't the startTile
-                    while(currentTile.prev != null)
+                    while(currentTile.Prev != null)
                     {
                         // set pixel of original bitmap to green (solution) and get the previous pixel
                         // in the traversal
-                        this.originalBitmap.SetPixel(currentTile.x, currentTile.y, Color.Green);
-                        currentTile = currentTile.prev;
+                        this.originalBitmap.SetPixel(currentTile.X, currentTile.Y, Color.Green);
+                        currentTile = currentTile.Prev;
                     }
 
                     // return the solution as a bitmap
@@ -152,65 +179,66 @@ namespace Maze
                 }
 
                 // Values of x and y that are used for diagonal and lateral moves
-                int lowerX = currentTile.x - 1;
-                int upperX = currentTile.x + 1;
-                int lowerY = currentTile.y - 1;
-                int upperY = currentTile.y + 1;
-                int nextDepth = currentTile.cost + 1;
+                int lowerX = currentTile.X - 1;
+                int upperX = currentTile.X + 1;
+                int lowerY = currentTile.Y - 1;
+                int upperY = currentTile.Y + 1;
+                int nextDepth = currentTile.Cost + 1;
 
+                
                 // enqueue diagonal moves
                 // need to be handled uniquely due to the potential for clipping
                 // through a diagonal wall.
                 // MUST be added to frontier before lateral moves, due to setting isEmpty
                 if (this.maze[lowerY][lowerX].isEmpty
-                    && (this.maze[lowerY][currentTile.x].isEmpty
-                    || this.maze[currentTile.y][lowerX].isEmpty))
+                    && (this.maze[lowerY][currentTile.X].isEmpty
+                    || this.maze[currentTile.Y][lowerX].isEmpty))
                 {
                     frontier.Enqueue(new TileNode(lowerX, lowerY, nextDepth, currentTile));
                     this.maze[lowerY][lowerX].isEmpty = false;
                 }
                 if (this.maze[lowerY][upperX].isEmpty
-                    && (this.maze[lowerY][currentTile.x].isEmpty
-                    || this.maze[currentTile.y][upperX].isEmpty))
+                    && (this.maze[lowerY][currentTile.X].isEmpty
+                    || this.maze[currentTile.Y][upperX].isEmpty))
                 {
                     frontier.Enqueue(new TileNode(upperX, lowerY, nextDepth, currentTile));
                     this.maze[lowerY][upperX].isEmpty = false;
                 }
                 if (this.maze[upperY][upperX].isEmpty
-                    && (this.maze[currentTile.y][upperX].isEmpty
-                    || this.maze[upperY][currentTile.x].isEmpty))
+                    && (this.maze[currentTile.Y][upperX].isEmpty
+                    || this.maze[upperY][currentTile.X].isEmpty))
                 {
                     frontier.Enqueue(new TileNode(upperX, upperY, nextDepth, currentTile));
                     this.maze[upperY][upperX].isEmpty = false;
                 }
                 if (this.maze[upperY][lowerX].isEmpty
-                    && (this.maze[upperY][currentTile.x].isEmpty
-                    || this.maze[currentTile.y][lowerX].isEmpty))
+                    && (this.maze[upperY][currentTile.X].isEmpty
+                    || this.maze[currentTile.Y][lowerX].isEmpty))
                 {
                     frontier.Enqueue(new TileNode(lowerX, upperY, nextDepth, currentTile));
                     this.maze[upperY][lowerX].isEmpty = false;
                 }
 
                 // enqueue lateral moves
-                if (this.maze[lowerY][currentTile.x].isEmpty)
+                if (this.maze[lowerY][currentTile.X].isEmpty)
                 {
-                    frontier.Enqueue(new TileNode(currentTile.x, lowerY, nextDepth, currentTile));
-                    this.maze[lowerY][currentTile.x].isEmpty = false;
+                    frontier.Enqueue(new TileNode(currentTile.X, lowerY, nextDepth, currentTile));
+                    this.maze[lowerY][currentTile.X].isEmpty = false;
                 }
-                if (this.maze[currentTile.y][upperX].isEmpty)
+                if (this.maze[currentTile.Y][upperX].isEmpty)
                 {
-                    frontier.Enqueue(new TileNode(upperX, currentTile.y, nextDepth, currentTile));
-                    this.maze[currentTile.y][upperX].isEmpty = false;
+                    frontier.Enqueue(new TileNode(upperX, currentTile.Y, nextDepth, currentTile));
+                    this.maze[currentTile.Y][upperX].isEmpty = false;
                 }
-                if (this.maze[upperY][currentTile.x].isEmpty)
+                if (this.maze[upperY][currentTile.X].isEmpty)
                 {
-                    frontier.Enqueue(new TileNode(currentTile.x, upperY, nextDepth, currentTile));
-                    this.maze[upperY][currentTile.x].isEmpty = false;
+                    frontier.Enqueue(new TileNode(currentTile.X, upperY, nextDepth, currentTile));
+                    this.maze[upperY][currentTile.X].isEmpty = false;
                 }
-                if (this.maze[currentTile.y][lowerX].isEmpty)
+                if (this.maze[currentTile.Y][lowerX].isEmpty)
                 {
-                    frontier.Enqueue(new TileNode(lowerX, currentTile.y, nextDepth, currentTile));
-                    this.maze[currentTile.y][lowerX].isEmpty = false;
+                    frontier.Enqueue(new TileNode(lowerX, currentTile.Y, nextDepth, currentTile));
+                    this.maze[currentTile.Y][lowerX].isEmpty = false;
                 }
             }
             
@@ -249,8 +277,8 @@ namespace Maze
         /// <returns>true if it is starting position</returns>
         private bool isStart(Color c)
         {
-            return (c.R <= RG_START_THRESHOLD
-                && c.G <= RG_START_THRESHOLD
+            return (c.R <= R_START_THRESHOLD
+                && c.G <= G_START_THRESHOLD
                 && c.B >= B_START_THRESHOLD);
         }
 
@@ -262,8 +290,8 @@ namespace Maze
         private bool isFinish(Color c)
         {
             return (c.R >= R_FINISH_THRESHOLD
-                && c.G <= GB_FINISH_THRESHOLD
-                && c.B <= GB_FINISH_THRESHOLD);
+                && c.G <= G_FINISH_THRESHOLD
+                && c.B <= B_FINISH_THRESHOLD);
         }
     }
 }

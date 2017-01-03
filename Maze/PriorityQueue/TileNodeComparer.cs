@@ -18,7 +18,7 @@ namespace Maze
         ///             &lt0: x costs less than y</returns>
         public override int Compare(TileNode x, TileNode y)
         {
-            return (x.cost - y.cost);
+            return (x.Cost - y.Cost);
         }
     }
 }

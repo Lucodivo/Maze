@@ -14,8 +14,8 @@ namespace Maze
 
         protected override TileNode heuristic(TileNode element)
         {
-            element.cost += Math.Abs(this.finishTile.x - element.x);
-            element.cost += Math.Abs(this.finishTile.y - element.y);
+            element.Cost += Math.Abs(this.finishTile.X - element.X);
+            element.Cost += Math.Abs(this.finishTile.Y - element.Y);
             return element;
         }
     }
