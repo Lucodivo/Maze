@@ -69,7 +69,7 @@ namespace Maze.Tests
             Maze testMaze = new Maze(new Bitmap(MAZE_PICTURE_1));
             Bitmap solvedMaze = testMaze.solve();
             Assert.IsNotNull(solvedMaze);
-            // solvedMaze.Save(MAZE_PICTURE_1_SOLVED); // save test solution bitmap
+             solvedMaze.Save(MAZE_PICTURE_1_SOLVED); // save test solution bitmap
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Maze.Tests
             Maze testMaze = new Maze(new Bitmap(MAZE_PICTURE_2));
             Bitmap solvedMaze = testMaze.solve();
             Assert.IsNotNull(solvedMaze);
-            // solvedMaze.Save(MAZE_PICTURE_2_SOLVED); // save test solution bitmap
+             solvedMaze.Save(MAZE_PICTURE_2_SOLVED); // save test solution bitmap
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Maze.Tests
             Maze testMaze = new Maze(new Bitmap(MAZE_PICTURE_3));
             Bitmap solvedMaze = testMaze.solve();
             Assert.IsNotNull(solvedMaze);
-            // solvedMaze.Save(MAZE_PICTURE_3_SOLVED); // save test solution bitmap
+             solvedMaze.Save(MAZE_PICTURE_3_SOLVED); // save test solution bitmap
         }
 
         /// <summary>

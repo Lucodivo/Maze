@@ -28,14 +28,15 @@ namespace Maze
     /// </summary>
     public class Maze
     {
-
         // threshold for RGB values for determining "white" and "black"
         private const int BLACK_WALL_THRESHOLD = 64;
         private const int WHITE_EMPTY_THRESHOLD = 220;
+
         // threshold for RGB values for determining "blue"
         private const int R_START_THRESHOLD = 65;
         private const int G_START_THRESHOLD = 180;
         private const int B_START_THRESHOLD = 190;
+        
         // threshold for RGB values for determining "red"
         private const int R_FINISH_THRESHOLD = 180;
         private const int G_FINISH_THRESHOLD = 40;
@@ -48,7 +49,7 @@ namespace Maze
         // dimensions of maze
         public int width { get; private set; }
         public int height { get; private set; }
-        // 
+        // TileNodes to keep track of start and finishing pixels of the maze
         public TileNode startTile { get; private set; }
         public TileNode finishTile { get; private set; }
 
@@ -73,30 +74,41 @@ namespace Maze
         /// </summary>
         private void setTilesFromBitmap()
         {
+            // initialize the amount of rows that will exist in the maze
             this.maze = new Tile[this.height][];
+            
+            // Track if we've found at least one pixel of start or finish
             bool lookingForStart = true;
             bool lookingForFinish = true;
+
+            // Points used to acquire the center of the starting and finishing points
             Point topLeftStart = new Point(0, 0);
             Point bottomRightStart = new Point(0, 0);
             Point topLeftFinish = new Point(0, 0);
             Point bottomRightFinish = new Point(0, 0);
 
+            // for every row in the maze
             for(int i = 0; i < this.height; ++i)
             {
+                // initialize that row
                 maze[i] = new Tile[this.width];
 
+                // for every cell
                 for(int j = 0; j < this.width; ++j)
                 {
                     /**
                      * TODO: Find a better way to iterate through an image besides getPixel???
                      */
+                    // acquire the pixel of the corresponding pixel
                     Color pixel = this.originalBitmap.GetPixel(j, i);
 
+                    // check if the pixel represents a wall
                     if(isWall(pixel))
                     {
+                        // 
                         maze[i][j].isEmpty = false;
                     }
-                    else
+                    else //if(!isEmpty(pixel))
                     {
                         maze[i][j].isEmpty = true;
                         if (isStart(pixel))
