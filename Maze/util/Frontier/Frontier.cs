@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Maze
 {
+    /// <summary>
+    /// Interface used to determine which elements to expand when running a search
+    /// </summary>
+    /// <typeparam name="T">Type of element being expanded</typeparam>
     interface Frontier<T>
     {
         void Enqueue(T element);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using Maze.util.PriorityQueue;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

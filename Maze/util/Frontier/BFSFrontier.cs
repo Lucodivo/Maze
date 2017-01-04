@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Maze
 {
+    /// <summary>
+    /// A Frontier that simply uses FIFO queue structure
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class BFSFrontier<T> : Frontier<T>
     {
         Queue<T> nodes;

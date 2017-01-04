@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Maze
 {
+    /// <summary>
+    /// A Min Heap structure that organizes the type as determined through the IComparer<T> interface
+    /// </summary>
+    /// <typeparam name="T">Type of element to be stored in a min heap. Must have corresponding class that implements IComparer</typeparam>
     public class PriorityQueue<T>
     {
         public T[] queue;
@@ -13,6 +17,11 @@ namespace Maze
         public int capacity;
         public IComparer<T> comparer;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cap">Initial size of queue</param>
+        /// <param name="comp"></param>
         public PriorityQueue(int cap, IComparer<T> comp)
         {
             this.capacity = cap;
@@ -21,8 +30,16 @@ namespace Maze
             this.comparer = comp;
         }
 
-        public PriorityQueue(IComparer<T> comp) : this(16, comp) { }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="comp"></param>
+        public PriorityQueue(IComparer<T> comp) : this(16, comp) {  }
 
+        /// <summary>
+        /// Adds element to queue while maintaining minheap
+        /// </summary>
+        /// <param name="element">element to be added to queue</param>
         public void add(T element)
         {
             if(this.count == this.capacity)
@@ -34,6 +51,9 @@ namespace Maze
             heapifyUp();
         }
 
+        /// <summary>
+        /// Removes and returns smallest value node in queue
+        /// </summary>
         public T remove()
         {
             if(this.count > 0)
@@ -47,6 +67,10 @@ namespace Maze
             return default(T);
         }
 
+        /// <summary>
+        /// View the node with minimum value (does not remove node from queue
+        /// </summary>
+        /// <returns>current node with minimum value</returns>
         public T peek()
         {
             if(count > 0)
@@ -57,6 +81,9 @@ namespace Maze
             return default(T);
         }
 
+        /// <summary>
+        /// Place the node at the end of the array into its appropriate position
+        /// </summary>
         private void heapifyUp()
         {
             int newIndex = this.count - 1;
@@ -74,6 +101,9 @@ namespace Maze
             }
         }
 
+        /// <summary>
+        /// Place the node at the root in its appropriate position
+        /// </summary>
         private void heapifyDown()
         {
             int rootIndex = 0;
@@ -101,6 +131,9 @@ namespace Maze
             }
         }
 
+        /// <summary>
+        /// Helper function to double the array size and capacity of priority queue
+        /// </summary>
         public void doubleCapacity()
         {
             T[] newQueue = new T[this.capacity * 2];
@@ -109,6 +142,9 @@ namespace Maze
             this.capacity *= 2;
         }
 
+        /// <summary>
+        /// Helper function for swapping values in queue
+        /// </summary>
         private void queueSwap(int index1, int index2)
         {
             T tmp = this.queue[index1];
