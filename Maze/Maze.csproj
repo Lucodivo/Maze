@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="util\Frontier\AStarFrontier.cs" />
     <Compile Include="util\Frontier\BFSFrontier.cs" />
+    <Compile Include="util\Frontier\DFSFrontier.cs" />
     <Compile Include="util\PriorityQueue\IntComparer.cs" />
     <Compile Include="util\Frontier\Frontier.cs" />
     <Compile Include="util\Frontier\ManhattanAStarFrontier.cs" />

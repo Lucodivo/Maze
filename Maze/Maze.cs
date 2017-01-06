@@ -166,7 +166,7 @@ namespace Maze
         public Bitmap solve()
         {
             // create a frontier and enqueue the starting tile
-            Frontier<TileNode> frontier = new ManhattanAStarFrontier(finishTile);
+            Frontier<TileNode> frontier = new DFSFrontier<TileNode>();
             frontier.Enqueue(startTile);
             
             // while there are still nodes to be visited in the frontier
