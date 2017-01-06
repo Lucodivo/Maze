@@ -13,7 +13,7 @@ namespace Maze
     public struct Tile
     {
         // false means the tile is a wall
-        public bool isEmpty;
+        public bool isTraversable;
     }
 
     /// <summary>
@@ -105,12 +105,13 @@ namespace Maze
                     // check if the pixel represents a wall
                     if(isWall(pixel))
                     {
-                        // 
-                        maze[i][j].isEmpty = false;
+                        // false represents a wall
+                        maze[i][j].isTraversable = false;
                     }
-                    else //if(!isEmpty(pixel))
+                    else
                     {
-                        maze[i][j].isEmpty = true;
+                        // true represents traversable space
+                        maze[i][j].isTraversable = true;
                         if (isStart(pixel))
                         {
                             if(lookingForStart)
@@ -166,7 +167,7 @@ namespace Maze
         public Bitmap solve()
         {
             // create a frontier and enqueue the starting tile
-            Frontier<TileNode> frontier = new DFSFrontier<TileNode>();
+            IFrontier<TileNode> frontier = new BFSFrontier<TileNode>();
             frontier.Enqueue(startTile);
             
             // while there are still nodes to be visited in the frontier
@@ -202,55 +203,55 @@ namespace Maze
                 // need to be handled uniquely due to the potential for clipping
                 // through a diagonal wall.
                 // MUST be added to frontier before lateral moves, due to setting isEmpty
-                if (this.maze[lowerY][lowerX].isEmpty
-                    && (this.maze[lowerY][currentTile.X].isEmpty
-                    || this.maze[currentTile.Y][lowerX].isEmpty))
+                if (this.maze[lowerY][lowerX].isTraversable
+                    && (this.maze[lowerY][currentTile.X].isTraversable
+                    || this.maze[currentTile.Y][lowerX].isTraversable))
                 {
                     frontier.Enqueue(new TileNode(lowerX, lowerY, nextDepth, currentTile));
-                    this.maze[lowerY][lowerX].isEmpty = false;
+                    this.maze[lowerY][lowerX].isTraversable = false;
                 }
-                if (this.maze[lowerY][upperX].isEmpty
-                    && (this.maze[lowerY][currentTile.X].isEmpty
-                    || this.maze[currentTile.Y][upperX].isEmpty))
+                if (this.maze[lowerY][upperX].isTraversable
+                    && (this.maze[lowerY][currentTile.X].isTraversable
+                    || this.maze[currentTile.Y][upperX].isTraversable))
                 {
                     frontier.Enqueue(new TileNode(upperX, lowerY, nextDepth, currentTile));
-                    this.maze[lowerY][upperX].isEmpty = false;
+                    this.maze[lowerY][upperX].isTraversable = false;
                 }
-                if (this.maze[upperY][upperX].isEmpty
-                    && (this.maze[currentTile.Y][upperX].isEmpty
-                    || this.maze[upperY][currentTile.X].isEmpty))
+                if (this.maze[upperY][upperX].isTraversable
+                    && (this.maze[currentTile.Y][upperX].isTraversable
+                    || this.maze[upperY][currentTile.X].isTraversable))
                 {
                     frontier.Enqueue(new TileNode(upperX, upperY, nextDepth, currentTile));
-                    this.maze[upperY][upperX].isEmpty = false;
+                    this.maze[upperY][upperX].isTraversable = false;
                 }
-                if (this.maze[upperY][lowerX].isEmpty
-                    && (this.maze[upperY][currentTile.X].isEmpty
-                    || this.maze[currentTile.Y][lowerX].isEmpty))
+                if (this.maze[upperY][lowerX].isTraversable
+                    && (this.maze[upperY][currentTile.X].isTraversable
+                    || this.maze[currentTile.Y][lowerX].isTraversable))
                 {
                     frontier.Enqueue(new TileNode(lowerX, upperY, nextDepth, currentTile));
-                    this.maze[upperY][lowerX].isEmpty = false;
+                    this.maze[upperY][lowerX].isTraversable = false;
                 }
 
                 // enqueue lateral moves
-                if (this.maze[lowerY][currentTile.X].isEmpty)
+                if (this.maze[lowerY][currentTile.X].isTraversable)
                 {
                     frontier.Enqueue(new TileNode(currentTile.X, lowerY, nextDepth, currentTile));
-                    this.maze[lowerY][currentTile.X].isEmpty = false;
+                    this.maze[lowerY][currentTile.X].isTraversable = false;
                 }
-                if (this.maze[currentTile.Y][upperX].isEmpty)
+                if (this.maze[currentTile.Y][upperX].isTraversable)
                 {
                     frontier.Enqueue(new TileNode(upperX, currentTile.Y, nextDepth, currentTile));
-                    this.maze[currentTile.Y][upperX].isEmpty = false;
+                    this.maze[currentTile.Y][upperX].isTraversable = false;
                 }
-                if (this.maze[upperY][currentTile.X].isEmpty)
+                if (this.maze[upperY][currentTile.X].isTraversable)
                 {
                     frontier.Enqueue(new TileNode(currentTile.X, upperY, nextDepth, currentTile));
-                    this.maze[upperY][currentTile.X].isEmpty = false;
+                    this.maze[upperY][currentTile.X].isTraversable = false;
                 }
-                if (this.maze[currentTile.Y][lowerX].isEmpty)
+                if (this.maze[currentTile.Y][lowerX].isTraversable)
                 {
                     frontier.Enqueue(new TileNode(lowerX, currentTile.Y, nextDepth, currentTile));
-                    this.maze[currentTile.Y][lowerX].isEmpty = false;
+                    this.maze[currentTile.Y][lowerX].isTraversable = false;
                 }
             }
             

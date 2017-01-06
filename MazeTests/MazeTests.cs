@@ -13,15 +13,18 @@ namespace Maze.Tests
     public class MazeTests
     {
         // test maze image location
+        public const String NO_SOLUTION_MAZE_PICTURE = "..\\..\\..\\TestData\\no_solution_maze.bmp";
         public const String MAZE_PICTURE_1 = "..\\..\\..\\TestData\\maze1.png";
         public const String MAZE_PICTURE_2 = "..\\..\\..\\TestData\\maze2.png";
         public const String MAZE_PICTURE_3 = "..\\..\\..\\TestData\\maze3.png";
         public const String MAZE_PICTURE_4 = "..\\..\\..\\TestData\\maze4.jpg";
+        public const String MAZE_PICTURE_5 = "..\\..\\..\\TestData\\maze5.bmp";
         // test maze image solved saving locations
         public const String MAZE_PICTURE_1_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze1solved.png";
         public const String MAZE_PICTURE_2_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze2solved.png";
         public const String MAZE_PICTURE_3_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze3solved.png";
         public const String MAZE_PICTURE_4_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze4solved.jpg";
+        public const String MAZE_PICTURE_5_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze5solved.bmp";
 
         private Maze m;
 
@@ -69,7 +72,7 @@ namespace Maze.Tests
             Maze testMaze = new Maze(new Bitmap(MAZE_PICTURE_1));
             Bitmap solvedMaze = testMaze.solve();
             Assert.IsNotNull(solvedMaze);
-             solvedMaze.Save(MAZE_PICTURE_1_SOLVED); // save test solution bitmap
+            // solvedMaze.Save(MAZE_PICTURE_1_SOLVED); // save test solution bitmap
         }
 
         /// <summary>
@@ -81,7 +84,7 @@ namespace Maze.Tests
             Maze testMaze = new Maze(new Bitmap(MAZE_PICTURE_2));
             Bitmap solvedMaze = testMaze.solve();
             Assert.IsNotNull(solvedMaze);
-             solvedMaze.Save(MAZE_PICTURE_2_SOLVED); // save test solution bitmap
+            // solvedMaze.Save(MAZE_PICTURE_2_SOLVED); // save test solution bitmap
         }
 
         /// <summary>
@@ -93,7 +96,7 @@ namespace Maze.Tests
             Maze testMaze = new Maze(new Bitmap(MAZE_PICTURE_3));
             Bitmap solvedMaze = testMaze.solve();
             Assert.IsNotNull(solvedMaze);
-             solvedMaze.Save(MAZE_PICTURE_3_SOLVED); // save test solution bitmap
+            // solvedMaze.Save(MAZE_PICTURE_3_SOLVED); // save test solution bitmap
         }
 
         /// <summary>
@@ -105,7 +108,24 @@ namespace Maze.Tests
             Maze testMaze = new Maze(new Bitmap(MAZE_PICTURE_4));
             Bitmap solvedMaze = testMaze.solve();
             Assert.IsNotNull(solvedMaze);
-             solvedMaze.Save(MAZE_PICTURE_4_SOLVED); // save test solution bitmap
+            // solvedMaze.Save(MAZE_PICTURE_4_SOLVED); // save test solution bitmap
+        }
+
+        [TestMethod()]
+        public void Solve_Maze5_BMP_Test()
+        {
+            Maze testMaze = new Maze(new Bitmap(MAZE_PICTURE_5));
+            Bitmap solvedMaze = testMaze.solve();
+            Assert.IsNotNull(solvedMaze);
+            // solvedMaze.Save(MAZE_PICTURE_5_SOLVED); // save test solution bitmap
+        }
+
+        [TestMethod()]
+        public void Solve_Maze_No_Solution_Test()
+        {
+            Maze testMaze = new Maze(new Bitmap(NO_SOLUTION_MAZE_PICTURE));
+            Bitmap solvedMaze = testMaze.solve();
+            Assert.IsNull(solvedMaze);
         }
     }
 }

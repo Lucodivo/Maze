@@ -10,7 +10,7 @@ namespace Maze
     /// A Frontier that simply uses FIFO queue structure
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class BFSFrontier<T> : Frontier<T>
+    public class BFSFrontier<T> : IFrontier<T>
     {
         Queue<T> nodes;
 

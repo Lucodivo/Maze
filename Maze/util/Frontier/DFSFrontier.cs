@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Maze
 {
-    class DFSFrontier<T> : Frontier<T>
+    class DFSFrontier<T> : IFrontier<T>
     {
         private Stack<T> nodes;
 

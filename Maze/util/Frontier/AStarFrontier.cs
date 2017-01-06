@@ -10,7 +10,7 @@ namespace Maze
     /// An abstract class that uses the A* algorithm to provide a Frontier of TileNodes
     /// to be expanded. The heuristic function must be implemented in the concrete class
     /// </summary>
-    abstract class AStarFrontier : Frontier<TileNode>
+    abstract class AStarFrontier : IFrontier<TileNode>
     {
         PriorityQueue<TileNode> queue;
         protected TileNode goal;
