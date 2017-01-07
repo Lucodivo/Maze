@@ -29,7 +29,7 @@ namespace Maze.Tests
         public const String LARGE_MAZE_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\large_maze_solved.png";
 
         private Maze m;
-        private const bool SAVE_TEST_SOLUTIONS = true;
+        private const bool SAVE_TEST_SOLUTIONS = false;
 
         [TestInitialize()]
         public void Initialize()
@@ -158,7 +158,7 @@ namespace Maze.Tests
         /// Tests that the program sucessfully solves large files (and gif files)
         /// </summary>
         [TestMethod()]
-        public void Solve_Maze6_GIF_Test()
+        public void Solve_Maze6_Test()
         {
             Maze testMaze = new Maze(new Bitmap(LARGE_MAZE_PICTURE));
             Bitmap solvedMaze = testMaze.solve();

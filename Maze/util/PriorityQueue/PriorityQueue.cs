@@ -15,7 +15,7 @@ namespace Maze
         public T[] queue;
         public int count;
         public int capacity;
-        public IComparer<T> comparer;
+        IComparer<T> comparer;
 
         /// <summary>
         /// 
@@ -26,8 +26,8 @@ namespace Maze
         {
             this.capacity = cap;
             this.queue = new T[this.capacity];
-            this.count = 0;
             this.comparer = comp;
+            this.count = 0;
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Maze
             }
 
             // add element to end of array and float it to it's correct position
-            this.queue[count++] = element;
+            this.queue[this.count++] = element;
             heapifyUp();
         }
 
@@ -94,14 +94,15 @@ namespace Maze
         private void heapifyUp()
         {
             int newIndex = this.count - 1;
-            while(newIndex > 0)
+            while (newIndex > 0)
             {
                 int parentIndex = (newIndex - 1) / 2;
-                if(this.comparer.Compare(this.queue[newIndex], this.queue[parentIndex]) < 0)
+                if (this.comparer.Compare(this.queue[newIndex], this.queue[parentIndex]) < 0)
                 {
                     queueSwap(newIndex, parentIndex);
                     newIndex = parentIndex;
-                } else
+                }
+                else
                 {
                     return;
                 }
@@ -126,12 +127,14 @@ namespace Maze
                     {
                         queueSwap(rootIndex, rightChildIndex);
                         rootIndex = rightChildIndex;
-                    } else
+                    }
+                    else
                     {
                         queueSwap(rootIndex, leftChildIndex);
                         rootIndex = leftChildIndex;
                     }
-                } else
+                }
+                else
                 {
                     return;
                 }

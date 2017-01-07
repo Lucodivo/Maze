@@ -21,7 +21,12 @@ namespace Maze
         ///             &lt0: x costs less than y</returns>
         public int Compare(TileNode x, TileNode y)
         {
-            return (x.Cost - y.Cost);
+            if(x.Value < y.Value)
+            {
+                return -1;
+            }
+
+            return 1;
         }
     }
 }

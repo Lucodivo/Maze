@@ -14,23 +14,22 @@ namespace Maze
     {
         PriorityQueue<TileNode> queue;
         protected TileNode goal;
+        protected float hScale;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="goal"></param>
-        /// <param name="initialCapacity"></param>
-        public AStarFrontier(TileNode goal, int initialCapacity)
+        /// <param name="initCap"></param>
+        /// <param name="hScale"></param>
+        public AStarFrontier(TileNode goal, int initCap = 16, float hScale = 1.0f)
         {
             this.goal = goal;
-            queue = new PriorityQueue<TileNode>(new TileNodeComparer(), initialCapacity);
+            this.hScale = hScale;
+            queue = new PriorityQueue<TileNode>(new TileNodeComparer(), initCap);
         }
 
-        /// <summary>
-        /// Constructor initializes PriorityQueue
-        /// </summary>
-        /// <param name="goal">The goal to be used for the heurstic function</param>
-        public AStarFrontier(TileNode goal) : this(goal, 16) { }
+        public AStarFrontier(TileNode goal, float hScale) : this(goal, 16, hScale) { }
 
         /// <summary>
         /// Returns the next TileNode in the Frontier to be expanded

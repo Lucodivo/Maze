@@ -110,8 +110,9 @@ namespace Maze
                     }
                     else
                     {
-                        // true represents traversable space
+                        // all non-walls are traversable space
                         maze[i][j].isTraversable = true;
+
                         if (isStart(pixel))
                         {
                             if(lookingForStart)
@@ -166,8 +167,14 @@ namespace Maze
         /// <returns>Maze solution as a bitmap</returns>
         public Bitmap solve()
         {
+            // Scaling equation taken from this webpage
+            // h = (1.0 + p), where p < (minimum cost of single step) / (max path length)
+            // http://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html
+            int maxPathLength = (this.width * this.height) / 2;
+            float hScale = 1.0f + (1.0f / 1000);
+
             // create a frontier and enqueue the starting tile
-            IFrontier<TileNode> frontier = new ManhattanAStarFrontier(this.finishTile);
+            IFrontier<TileNode> frontier = new ManhattanAStarFrontier(this.finishTile, hScale);
             frontier.Enqueue(startTile);
             
             // while there are still nodes to be visited in the frontier
@@ -187,8 +194,7 @@ namespace Maze
                 int upperX = currentTile.X + 1;
                 int lowerY = currentTile.Y - 1;
                 int upperY = currentTile.Y + 1;
-                int nextDepth = currentTile.Cost + 1;
-
+                int nextDepth = currentTile.Depth + 1;
                 
                 // enqueue diagonal moves
                 // need to be handled uniquely due to the potential for clipping

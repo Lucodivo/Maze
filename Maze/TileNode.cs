@@ -14,7 +14,8 @@ namespace Maze
     {
         private int x;
         private int y;
-        private int cost;
+        private int depth;
+        private double value;
         private TileNode prev;
 
         public int X
@@ -43,16 +44,29 @@ namespace Maze
             }
         }
 
-        public int Cost
+        public int Depth
         {
             get
             {
-                return cost;
+                return depth;
             }
 
             set
             {
-                cost = value;
+                depth = value;
+            }
+        }
+
+        public double Value
+        {
+            get
+            {
+                return value;
+            }
+
+            set
+            {
+                this.value = value;
             }
         }
 
@@ -69,16 +83,15 @@ namespace Maze
             }
         }
 
-        public TileNode(int x, int y, int cost, TileNode p)
+        public TileNode(int x = 0, int y = 0, int depth = 0, TileNode p = null, double value = 0)
         {
             this.X = x;
             this.Y = y;
-            this.Cost = cost;
+            this.Depth = depth;
+            this.Value = value;
             this.Prev = p;
         }
 
-        public TileNode(Point point, int cost, TileNode p) : this(point.X, point.Y, cost, p) { }
-
-        public TileNode() : this(0, 0, 0, null) { }
+        public TileNode(Point point, int depth, TileNode p) : this(point.X, point.Y, depth, p) { }
     }
 }

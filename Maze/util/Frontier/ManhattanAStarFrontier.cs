@@ -11,14 +11,15 @@ namespace Maze
     /// </summary>
     class ManhattanAStarFrontier : AStarFrontier
     {
-        public ManhattanAStarFrontier(TileNode finishTile, int initCap) : base(finishTile, initCap) { }
+        public ManhattanAStarFrontier(TileNode finishTile, int initCap = 16, float hScale = 1.0f) : base(finishTile, initCap, hScale) { }
 
-        public ManhattanAStarFrontier(TileNode finishTile) : base(finishTile) { }
+        public ManhattanAStarFrontier(TileNode finishTile, float hScale) : base(finishTile, hScale) { }
 
         protected override void heuristic(ref TileNode element)
         {
-            element.Cost += Math.Abs(this.goal.X - element.X);
-            element.Cost += Math.Abs(this.goal.Y - element.Y);
+            double hCost = ((Math.Abs(this.goal.X - element.X) + 
+                Math.Abs(this.goal.Y - element.Y)) * this.hScale);
+            element.Value = element.Depth + hCost;
         }
     }
 }

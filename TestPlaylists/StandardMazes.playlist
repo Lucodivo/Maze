@@ -1,0 +1,1 @@
+<Playlist Version="1.0"><Add Test="Maze.Tests.MazeTests.Solve_Maze2_Test" /><Add Test="Maze.Tests.MazeTests.Solve_Maze1_Test" /><Add Test="Maze.Tests.MazeTests.Solve_Maze3_Test" /><Add Test="Maze.Tests.MazeTests.Solve_Maze4_JPG_Test" /><Add Test="Maze.Tests.MazeTests.Solve_Maze5_BMP_Test" /><Add Test="Maze.Tests.MazeTests.Maze1_Initialization_Test" /></Playlist>

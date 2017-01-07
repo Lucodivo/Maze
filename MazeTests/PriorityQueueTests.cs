@@ -15,6 +15,7 @@ namespace MazeTests
         /// Tests PriorityQueue's expansion and that it functions properly
         /// as a min heap
         /// </summary>
+        
         [TestMethod()]
         public void IntPriorityQueueTest1()
         {
@@ -52,13 +53,13 @@ namespace MazeTests
         public void TileNodePriorityQueueTest1()
         {
             PriorityQueue<TileNode> pq = new PriorityQueue<TileNode>(new TileNodeComparer());
-            TileNode testTile1 = new TileNode(0, 0, 15, null);
-            TileNode testTile2 = new TileNode(1, 0, 9, null);
-            TileNode testTile3 = new TileNode(32, 1, 800, null);
-            TileNode testTile4 = new TileNode(0, 0, 312, null);
-            TileNode testTile5 = new TileNode(2, 3, 115, null);
-            TileNode testTile6 = new TileNode(45, 600, 17, null);
-            TileNode testTile7 = new TileNode(3, 5, 211, null);
+            TileNode testTile1 = new TileNode(0, 0, 0, null, 15);
+            TileNode testTile2 = new TileNode(1, 0, 0, null, 9);
+            TileNode testTile3 = new TileNode(32, 1, 0, null, 800);
+            TileNode testTile4 = new TileNode(0, 0, 0, null, 312);
+            TileNode testTile5 = new TileNode(2, 3, 0, null, 115);
+            TileNode testTile6 = new TileNode(45, 600, 0, null, 17);
+            TileNode testTile7 = new TileNode(3, 5, 0, null, 211);
             pq.add(testTile1);
             pq.add(testTile2);
             pq.add(testTile3);
@@ -69,13 +70,13 @@ namespace MazeTests
             Assert.AreEqual(testTile2, pq.remove());
             Assert.AreEqual(testTile1, pq.remove());
             Assert.AreEqual(testTile6, pq.remove());
-            TileNode testTile8 = new TileNode(3, 4234, 34, null);
-            TileNode testTile9 = new TileNode(1, 0, 70, null);
-            TileNode testTile10 = new TileNode(16, 1, 811, null);
-            TileNode testTile11 = new TileNode(0, 0, 1, null);
-            TileNode testTile12 = new TileNode(17, 37, 101, null);
-            TileNode testTile13 = new TileNode(5, 60, 175, null);
-            TileNode testTile14 = new TileNode(34, 5, 2111, null);
+            TileNode testTile8 = new TileNode(3, 4234, 0, null, 34);
+            TileNode testTile9 = new TileNode(1, 0, 0, null, 70);
+            TileNode testTile10 = new TileNode(16, 1, 0, null, 811);
+            TileNode testTile11 = new TileNode(0, 0, 0, null, 1);
+            TileNode testTile12 = new TileNode(17, 37, 0, null, 101);
+            TileNode testTile13 = new TileNode(5, 60, 0, null, 175);
+            TileNode testTile14 = new TileNode(34, 5, 0, null, 2111);
             pq.add(testTile8);
             pq.add(testTile9);
             pq.add(testTile10);
