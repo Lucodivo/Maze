@@ -22,7 +22,7 @@ namespace Maze
         /// </summary>
         /// <param name="cap">Initial size of queue</param>
         /// <param name="comp"></param>
-        public PriorityQueue(int cap, IComparer<T> comp)
+        public PriorityQueue(IComparer<T> comp, int cap)
         {
             this.capacity = cap;
             this.queue = new T[this.capacity];
@@ -34,7 +34,7 @@ namespace Maze
         /// 
         /// </summary>
         /// <param name="comp"></param>
-        public PriorityQueue(IComparer<T> comp) : this(16, comp) {  }
+        public PriorityQueue(IComparer<T> comp) : this(comp, 16) {  }
 
         /// <summary>
         /// Adds element to queue while maintaining minheap
@@ -42,11 +42,13 @@ namespace Maze
         /// <param name="element">element to be added to queue</param>
         public void add(T element)
         {
-            if(this.count == this.capacity)
+            // Double the queue's capacity if it is currently full
+            if (this.count == this.capacity)
             {
                 doubleCapacity();
             }
 
+            // add element to end of array and float it to it's correct position
             this.queue[count++] = element;
             heapifyUp();
         }
@@ -56,14 +58,17 @@ namespace Maze
         /// </summary>
         public T remove()
         {
+            // return and remove highest priority element if the queue is not empty
             if(this.count > 0)
             {
+
                 T highestPriorityElement = this.queue[0];
                 this.queue[0] = this.queue[--this.count];
                 heapifyDown();
                 return highestPriorityElement;
             }
 
+            // return the default value if the queue is empty
             return default(T);
         }
 
@@ -73,11 +78,13 @@ namespace Maze
         /// <returns>current node with minimum value</returns>
         public T peek()
         {
-            if(count > 0)
+            // return highest priority element if the queue is not empty
+            if (count > 0)
             {
                 return this.queue[0];
             }
 
+            // return the default value if the queue is empty
             return default(T);
         }
 

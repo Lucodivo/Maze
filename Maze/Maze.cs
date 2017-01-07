@@ -167,7 +167,7 @@ namespace Maze
         public Bitmap solve()
         {
             // create a frontier and enqueue the starting tile
-            IFrontier<TileNode> frontier = new BFSFrontier<TileNode>();
+            IFrontier<TileNode> frontier = new ManhattanAStarFrontier(this.finishTile);
             frontier.Enqueue(startTile);
             
             // while there are still nodes to be visited in the frontier
@@ -178,17 +178,8 @@ namespace Maze
                 // if node is at ending position, we simply need to return the solution
                 if(currentTile.X == finishTile.X && currentTile.Y == finishTile.Y)
                 {
-                    // while the current node isn't the startTile
-                    while(currentTile.Prev != null)
-                    {
-                        // set pixel of original bitmap to green (solution) and get the previous pixel
-                        // in the traversal
-                        this.originalBitmap.SetPixel(currentTile.X, currentTile.Y, Color.Green);
-                        currentTile = currentTile.Prev;
-                    }
-
                     // return the solution as a bitmap
-                    return this.originalBitmap;
+                    return drawSolution(currentTile);
                 }
 
                 // Values of x and y that are used for diagonal and lateral moves
@@ -257,6 +248,21 @@ namespace Maze
             
             // return null if no solution is found
             return null;
+        }
+
+        private Bitmap drawSolution(TileNode currentTile)
+        {
+            // while the current node isn't the startTile
+            while (currentTile.Prev != null)
+            {
+                // set pixel of original bitmap to green (solution) and get the previous pixel
+                // in the traversal
+                this.originalBitmap.SetPixel(currentTile.X, currentTile.Y, Color.Green);
+                currentTile = currentTile.Prev;
+            }
+
+            // return the solution as a bitmap
+            return this.originalBitmap;
         }
 
         /// <summary>

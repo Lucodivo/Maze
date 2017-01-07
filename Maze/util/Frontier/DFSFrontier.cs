@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Maze
 {
+    /// <summary>
+    /// A Frontier that simply uses LIFO stack structure
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     class DFSFrontier<T> : IFrontier<T>
     {
         private Stack<T> nodes;

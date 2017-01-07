@@ -11,6 +11,8 @@ namespace Maze
     /// </summary>
     class ManhattanAStarFrontier : AStarFrontier
     {
+        public ManhattanAStarFrontier(TileNode finishTile, int initCap) : base(finishTile, initCap) { }
+
         public ManhattanAStarFrontier(TileNode finishTile) : base(finishTile) { }
 
         protected override void heuristic(ref TileNode element)
