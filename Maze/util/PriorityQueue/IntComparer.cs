@@ -11,6 +11,22 @@ namespace Maze
     /// </summary>
     public class IntComparer : IComparer<int>
     {
+        private static IntComparer _instance;
+
+        protected IntComparer() { }
+
+        public static IntComparer Instance()
+        {
+            // Uses lazy initialization.
+            // Note: this is not thread safe.
+            if (_instance == null)
+            {
+                _instance = new IntComparer();
+            }
+
+            return _instance;
+        }
+
         /// <summary>
         /// Compare function used for integer comparison
         /// </summary>

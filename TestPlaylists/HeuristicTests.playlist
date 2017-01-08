@@ -1,0 +1,1 @@
+<Playlist Version="1.0"><Add Test="Maze.Tests.MazeTests.Solve_Maze_Template_Test" /><Add Test="Maze.Tests.MazeTests.Solve_Maze_Cave_Test" /><Add Test="Maze.Tests.MazeTests.Solve_Maze_Divide_Line_Test" /></Playlist>

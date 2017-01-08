@@ -174,7 +174,7 @@ namespace Maze
             float hScale = 1.0f + (1.0f / 1000);
 
             // create a frontier and enqueue the starting tile
-            IFrontier<TileNode> frontier = new ManhattanAStarFrontier(this.finishTile, hScale);
+            IFrontier<TileNode> frontier = /*new DjikstrasFrontier();*/ new ManhattanAStarFrontier(this.finishTile, hScale);
             frontier.Enqueue(startTile);
             
             // while there are still nodes to be visited in the frontier
@@ -196,6 +196,7 @@ namespace Maze
                 int upperY = currentTile.Y + 1;
                 int nextDepth = currentTile.Depth + 1;
                 
+                /*
                 // enqueue diagonal moves
                 // need to be handled uniquely due to the potential for clipping
                 // through a diagonal wall.
@@ -228,6 +229,7 @@ namespace Maze
                     frontier.Enqueue(new TileNode(lowerX, upperY, nextDepth, currentTile));
                     this.maze[upperY][lowerX].isTraversable = false;
                 }
+                */
 
                 // enqueue lateral moves
                 if (this.maze[lowerY][currentTile.X].isTraversable)

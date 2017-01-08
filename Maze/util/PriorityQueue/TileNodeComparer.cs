@@ -11,6 +11,22 @@ namespace Maze
     /// </summary>
     public class TileNodeComparer : IComparer<TileNode>
     {
+        private static TileNodeComparer _instance;
+
+        protected TileNodeComparer() { }
+
+        public static TileNodeComparer Instance()
+        {
+            // Uses lazy initialization.
+            // Note: this is not thread safe.
+            if (_instance == null)
+            {
+                _instance = new TileNodeComparer();
+            }
+
+            return _instance;
+        }
+
         /// <summary>
         /// Compare function used for TileNode comparison
         /// </summary>

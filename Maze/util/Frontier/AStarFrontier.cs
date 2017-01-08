@@ -26,7 +26,7 @@ namespace Maze
         {
             this.goal = goal;
             this.hScale = hScale;
-            queue = new PriorityQueue<TileNode>(new TileNodeComparer(), initCap);
+            queue = new PriorityQueue<TileNode>(TileNodeComparer.Instance(), initCap);
         }
 
         public AStarFrontier(TileNode goal, float hScale) : this(goal, 16, hScale) { }

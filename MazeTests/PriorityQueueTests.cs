@@ -19,7 +19,7 @@ namespace MazeTests
         [TestMethod()]
         public void IntPriorityQueueTest1()
         {
-            PriorityQueue<int> pq = new PriorityQueue<int>(new IntComparer());
+            PriorityQueue<int> pq = new PriorityQueue<int>(IntComparer.Instance());
             pq.add(7);
             pq.add(12321);
             pq.add(7123);
@@ -52,7 +52,7 @@ namespace MazeTests
         [TestMethod()]
         public void TileNodePriorityQueueTest1()
         {
-            PriorityQueue<TileNode> pq = new PriorityQueue<TileNode>(new TileNodeComparer());
+            PriorityQueue<TileNode> pq = new PriorityQueue<TileNode>(TileNodeComparer.Instance());
             TileNode testTile1 = new TileNode(0, 0, 0, null, 15);
             TileNode testTile2 = new TileNode(1, 0, 0, null, 9);
             TileNode testTile3 = new TileNode(32, 1, 0, null, 800);
