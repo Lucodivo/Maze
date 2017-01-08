@@ -8,10 +8,7 @@ namespace Maze
 {
     class UnacceptableMazeImageException : Exception
     {
-        public UnacceptableMazeImageException()
-        {
-
-        }
+        public UnacceptableMazeImageException() { }
 
         public UnacceptableMazeImageException(string msg) : base(msg) { }
 

@@ -57,8 +57,8 @@ namespace Maze.Tests
             int expectedWidth = 441;
             int expectedHeight = 441;
 
-            Assert.AreEqual(expectedWidth, m.width);
-            Assert.AreEqual(expectedHeight, m.height);
+            Assert.AreEqual(expectedWidth, m.Width);
+            Assert.AreEqual(expectedHeight, m.Height);
 
             // top left pixel location of start and finish squares
             int expectedStartX = 22;
@@ -66,10 +66,10 @@ namespace Maze.Tests
             int expectedFinishX = 243;
             int expectedFinishY = 418;
 
-            Assert.AreEqual(expectedStartX, m.startTile.X);
-            Assert.AreEqual(expectedStartY, m.startTile.Y);
-            Assert.AreEqual(expectedFinishX, m.finishTile.X);
-            Assert.AreEqual(expectedFinishY, m.finishTile.Y);
+            Assert.AreEqual(expectedStartX, m.StartTile.X);
+            Assert.AreEqual(expectedStartY, m.StartTile.Y);
+            Assert.AreEqual(expectedFinishX, m.FinishTile.X);
+            Assert.AreEqual(expectedFinishY, m.FinishTile.Y);
         }
 
         [TestMethod()]
