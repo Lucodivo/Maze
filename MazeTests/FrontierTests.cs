@@ -1,14 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Maze;
 using System.Drawing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Maze;
+using Maze.Util;
+using Maze.Model.Frontier;
 
 namespace MazeTests
 {
+    /// <summary>
+    /// Test class used for testing the different Frontier classes
+    /// </summary>
     [TestClass()]
     public class FrontierTests
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Maze
+namespace Maze.Util
 {
     /// <summary>
     /// Exception used to signify that an image is not a suitable maze image

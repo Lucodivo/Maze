@@ -44,24 +44,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Frontier\AStarFrontier.cs" />
-    <Compile Include="Frontier\BestFSAStarFrontier.cs" />
-    <Compile Include="Frontier\DjikstrasAStarFrontier.cs" />
-    <Compile Include="Frontier\BFSFrontier.cs" />
-    <Compile Include="Frontier\ChebyshevAStarFrontier.cs" />
-    <Compile Include="Frontier\DFSFrontier.cs" />
-    <Compile Include="Frontier\EuclideanAStarFrontier.cs" />
-    <Compile Include="Frontier\HeuristicFrontier.cs" />
-    <Compile Include="PriorityQueue\IntComparer.cs" />
-    <Compile Include="Frontier\IFrontier.cs" />
-    <Compile Include="Frontier\ManhattanAStarFrontier.cs" />
+    <Compile Include="Model\Frontier\AStarFrontier.cs" />
+    <Compile Include="Model\Frontier\BestFSAStarFrontier.cs" />
+    <Compile Include="Model\Frontier\DjikstrasAStarFrontier.cs" />
+    <Compile Include="Model\Frontier\BFSFrontier.cs" />
+    <Compile Include="Model\Frontier\ChebyshevAStarFrontier.cs" />
+    <Compile Include="Model\Frontier\DFSFrontier.cs" />
+    <Compile Include="Model\Frontier\EuclideanAStarFrontier.cs" />
+    <Compile Include="Model\Frontier\HeuristicFrontier.cs" />
+    <Compile Include="Util\PriorityQueue\IntComparer.cs" />
+    <Compile Include="Model\Frontier\IFrontier.cs" />
+    <Compile Include="Model\Frontier\ManhattanAStarFrontier.cs" />
     <Compile Include="Maze.cs" />
-    <Compile Include="PriorityQueue\PriorityQueue.cs" />
+    <Compile Include="Util\PriorityQueue\PriorityQueue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TileNode.cs" />
-    <Compile Include="UnacceptableMazeImageException.cs" />
-    <Compile Include="PriorityQueue\TileNodeComparer.cs" />
+    <Compile Include="Util\TileNode.cs" />
+    <Compile Include="Util\UnacceptableMazeImageException.cs" />
+    <Compile Include="Util\PriorityQueue\TileNodeComparer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Maze
+﻿namespace Maze.Model.Frontier
 {
     /// <summary>
     /// Interface used to determine which elements to expand when running a search

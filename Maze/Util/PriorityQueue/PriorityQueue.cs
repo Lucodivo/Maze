@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Maze
+namespace Maze.Util.PriorityQueue
 {
     /// <summary>
     /// A Min Heap structure that organizes the type as determined through the IComparer<T> interface

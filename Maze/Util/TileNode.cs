@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Maze
+namespace Maze.Util
 {
     /// <summary>
     /// Node used to traverse the pixels of a bitmap

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Maze.Util;
+using Maze.Util.PriorityQueue;
 
-namespace Maze
+namespace Maze.Model.Frontier
 {
     /// <summary>
     /// An abstract class that uses the A* algorithm to provide a Frontier of TileNodes

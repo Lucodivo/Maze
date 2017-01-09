@@ -1,14 +1,15 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Maze;
 using System;
 using System.Drawing;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Maze;
+using Maze.Model.Frontier;
+using Maze.Util;
 
 namespace MazeTests
 {
+    /// <summary>
+    /// test class used for testing the MazeSolver class
+    /// </summary>
     [TestClass()]
     public class MazeSolverTests
     {

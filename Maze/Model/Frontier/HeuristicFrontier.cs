@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Maze
+﻿namespace Maze.Model.Frontier
 {
     /// <summary>
     /// An abstract frontier class that uses heuristics to determine which

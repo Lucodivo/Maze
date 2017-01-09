@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Maze.Util;
 
-namespace Maze
+namespace Maze.Model.Frontier
 {
     /// <summary>
     /// An A* Frontier that uses Chebyshev distance as its heuristic

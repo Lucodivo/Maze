@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Maze.Util;
 
-namespace Maze
+namespace Maze.Model.Frontier
 {
     /// <summary>
     /// A Frontier that uses Djikstras algorithm ( h(n) = 0 ). 

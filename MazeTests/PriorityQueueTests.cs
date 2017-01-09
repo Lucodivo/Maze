@@ -4,10 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Maze;
+using Maze.Util;
+using Maze.Util.PriorityQueue;
 
 namespace MazeTests
 {
+    /// <summary>
+    /// Test class used for testing the PriorityQueue class
+    /// </summary>
     [TestClass()]
     public class PriorityQueueTests
     {
