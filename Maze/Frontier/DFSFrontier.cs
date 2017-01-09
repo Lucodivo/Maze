@@ -10,7 +10,7 @@ namespace Maze
     /// A Frontier that simply uses LIFO stack structure
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    class DFSFrontier<T> : IFrontier<T>
+    public class DFSFrontier<T> : IFrontier<T>
     {
         private Stack<T> nodes;
 
@@ -29,9 +29,14 @@ namespace Maze
             return nodes.Pop();
         }
 
-        public bool isEmpty()
+        public bool IsEmpty()
         {
             return (nodes.Count == 0);
+        }
+
+        public void Clear()
+        {
+            nodes.Clear();
         }
     }
 }

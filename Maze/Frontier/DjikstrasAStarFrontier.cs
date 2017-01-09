@@ -13,11 +13,11 @@ namespace Maze
     /// This class is perfect for testing the efficiency of the PriorityQueue class by comparing it
     /// with both BFSFrontier (which uses a simple queue) and other classes that extend AStarFrontier
     /// </summary>
-    class DjikstrasFrontier : AStarFrontier
+    public class DjikstrasAStarFrontier : AStarFrontier
     {
-        public DjikstrasFrontier() : base(new TileNode(), 16, 1.0f) { }
+        public DjikstrasAStarFrontier() : base(null, 16, 1.0f) { }
 
-        protected override void heuristic(ref TileNode element)
+        protected override void Heuristic(ref TileNode element)
         {
         }
     }

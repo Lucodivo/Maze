@@ -20,29 +20,29 @@ namespace MazeTests
         public void IntPriorityQueueTest1()
         {
             PriorityQueue<int> pq = new PriorityQueue<int>(IntComparer.Instance());
-            pq.add(7);
-            pq.add(12321);
-            pq.add(7123);
-            pq.add(2333);
-            pq.add(4);
-            pq.add(34);
-            pq.add(687);
-            pq.add(9954);
-            pq.add(13);
-            Assert.AreEqual(4, pq.remove());
-            Assert.AreEqual(7, pq.remove());
-            Assert.AreEqual(13, pq.remove());
-            pq.add(64);
-            pq.add(128);
-            pq.add(344);
-            pq.add(6872);
-            pq.add(995);
-            pq.add(136);
-            pq.add(640);
-            pq.add(256);
-            Assert.AreEqual(34, pq.remove());
-            Assert.AreEqual(64, pq.remove());
-            Assert.AreEqual(128, pq.remove());
+            pq.Add(7);
+            pq.Add(12321);
+            pq.Add(7123);
+            pq.Add(2333);
+            pq.Add(4);
+            pq.Add(34);
+            pq.Add(687);
+            pq.Add(9954);
+            pq.Add(13);
+            Assert.AreEqual(4, pq.Remove());
+            Assert.AreEqual(7, pq.Remove());
+            Assert.AreEqual(13, pq.Remove());
+            pq.Add(64);
+            pq.Add(128);
+            pq.Add(344);
+            pq.Add(6872);
+            pq.Add(995);
+            pq.Add(136);
+            pq.Add(640);
+            pq.Add(256);
+            Assert.AreEqual(34, pq.Remove());
+            Assert.AreEqual(64, pq.Remove());
+            Assert.AreEqual(128, pq.Remove());
         }
 
 
@@ -60,16 +60,16 @@ namespace MazeTests
             TileNode testTile5 = new TileNode(2, 3, 0, null, 115);
             TileNode testTile6 = new TileNode(45, 600, 0, null, 17);
             TileNode testTile7 = new TileNode(3, 5, 0, null, 211);
-            pq.add(testTile1);
-            pq.add(testTile2);
-            pq.add(testTile3);
-            pq.add(testTile4);
-            pq.add(testTile5);
-            pq.add(testTile6);
-            pq.add(testTile7);
-            Assert.AreEqual(testTile2, pq.remove());
-            Assert.AreEqual(testTile1, pq.remove());
-            Assert.AreEqual(testTile6, pq.remove());
+            pq.Add(testTile1);
+            pq.Add(testTile2);
+            pq.Add(testTile3);
+            pq.Add(testTile4);
+            pq.Add(testTile5);
+            pq.Add(testTile6);
+            pq.Add(testTile7);
+            Assert.AreEqual(testTile2, pq.Remove());
+            Assert.AreEqual(testTile1, pq.Remove());
+            Assert.AreEqual(testTile6, pq.Remove());
             TileNode testTile8 = new TileNode(3, 4234, 0, null, 34);
             TileNode testTile9 = new TileNode(1, 0, 0, null, 70);
             TileNode testTile10 = new TileNode(16, 1, 0, null, 811);
@@ -77,16 +77,16 @@ namespace MazeTests
             TileNode testTile12 = new TileNode(17, 37, 0, null, 101);
             TileNode testTile13 = new TileNode(5, 60, 0, null, 175);
             TileNode testTile14 = new TileNode(34, 5, 0, null, 2111);
-            pq.add(testTile8);
-            pq.add(testTile9);
-            pq.add(testTile10);
-            pq.add(testTile11);
-            pq.add(testTile12);
-            pq.add(testTile13);
-            pq.add(testTile14);
-            Assert.AreEqual(testTile11, pq.remove());
-            Assert.AreEqual(testTile8, pq.remove());
-            Assert.AreEqual(testTile9, pq.remove());
+            pq.Add(testTile8);
+            pq.Add(testTile9);
+            pq.Add(testTile10);
+            pq.Add(testTile11);
+            pq.Add(testTile12);
+            pq.Add(testTile13);
+            pq.Add(testTile14);
+            Assert.AreEqual(testTile11, pq.Remove());
+            Assert.AreEqual(testTile8, pq.Remove());
+            Assert.AreEqual(testTile9, pq.Remove());
         }
     }
 }

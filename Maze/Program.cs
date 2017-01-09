@@ -18,8 +18,8 @@ namespace Maze
                 try
                 {
                     Bitmap mazeBMP = new Bitmap(args[0]);
-                    Maze testMaze = new Maze(mazeBMP);
-                    Bitmap solvedMaze = testMaze.solve();
+                    MazeSolver testMaze = new MazeSolver(mazeBMP);
+                    Bitmap solvedMaze = testMaze.Solve();
                     if(solvedMaze != null)
                     {
                         solvedMaze.Save(args[1]);

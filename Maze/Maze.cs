@@ -26,7 +26,7 @@ namespace Maze
     /// 5) Maze is completely surrounded by black walls
     /// 6) All other pixels are considered traversable space
     /// </summary>
-    public class Maze
+    public class MazeSolver
     {
         // threshold for RGB values for determining "white" and "black"
         private const int BLACK_WALL_THRESHOLD = 64;
@@ -116,12 +116,12 @@ namespace Maze
         /// Initializing the Maze class with a Bitmap that follows rules specified in class description.
         /// </summary>
         /// <param name="mazeBitmap"></param>
-        public Maze(Bitmap mazeBitmap)
+        public MazeSolver(Bitmap mazeBitmap)
         {
             this.originalBitmap = mazeBitmap;
             this.Width = mazeBitmap.Width;
             this.Height = mazeBitmap.Height;
-            this.setTilesFromBitmap();
+            this.SetTilesFromBitmap();
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace Maze
         /// NOTE: Since we already traverse the bitmap to find starting and ending locations, 
         /// we make use of this loop to store the maze in a structure that is easier to travese
         /// </summary>
-        private void setTilesFromBitmap()
+        private void SetTilesFromBitmap()
         {
             // initialize the amount of rows that will exist in the maze
             this.tiles = new Tile[this.Height][];
@@ -162,7 +162,7 @@ namespace Maze
                     Color pixel = this.originalBitmap.GetPixel(j, i);
 
                     // check if the pixel represents a wall
-                    if(isWall(pixel))
+                    if(IsWall(pixel))
                     {
                         // false represents a wall
                         tiles[i][j].isTraversable = false;
@@ -172,7 +172,7 @@ namespace Maze
                         // all non-walls are traversable space
                         tiles[i][j].isTraversable = true;
 
-                        if (isStart(pixel))
+                        if (IsStart(pixel))
                         {
                             if(lookingForStart)
                             {
@@ -183,7 +183,7 @@ namespace Maze
                             bottomRightStart.X = j;
                             bottomRightStart.Y = i;
                         }
-                        else if (isFinish(pixel))
+                        else if (IsFinish(pixel))
                         {
                             if(lookingForFinish)
                             {
@@ -214,43 +214,50 @@ namespace Maze
             
         }
 
-        ~Maze()
+        ~MazeSolver()
         {
             // close any files, windows, or network connections
         }
 
         /// <summary>
         /// Function that solves the given bitmap and returns the solution as a bitmap.
-        /// Currently solves maze using BFS.
+        /// Will solve the maze using any class that implements IFrontier
         /// </summary>
         /// <returns>Maze solution as a bitmap</returns>
-        public Bitmap solve(IFrontier<TileNode> frontier)
+        public Bitmap Solve(IFrontier<TileNode> frontier)
         {
-            if(!frontier.isEmpty())
+            if(!frontier.IsEmpty())
             {
-                return null;
+                frontier.Clear();
             }
 
-            // Scaling equation taken from this webpage
-            // h = (1.0 + p), where p < (minimum cost of single step) / (max path length)
-            // http://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html
-            int maxPathLength = (this.Width * this.Height) / 2;
-            float hScale = 1.0f + (1.0f / 1000);
+            if(typeof(HeuristicFrontier<TileNode>).IsAssignableFrom(frontier.GetType()))
+            {
+                ((HeuristicFrontier<TileNode>)frontier).SetGoal(FinishTile);
 
-            Tile[][] traversingTiles = copyTiles();
+                // Scaling equation taken from this webpage
+                // h = (1.0 + p), where p < (minimum cost of single step) / (max path length)
+                // http://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html
+                int maxPathLength = (this.Width * this.Height) / 2;
+                float hScale = 1.0f + (1.0f / maxPathLength);
+
+                ((HeuristicFrontier<TileNode>)frontier).SetScale(hScale);
+            }
+
+            Tile[][] traversingTiles = CopyTiles();
             
             frontier.Enqueue(StartTile);
             
             // while there are still nodes to be visited in the frontier
-            while (!frontier.isEmpty())
+            while (!frontier.IsEmpty())
             {
                 // visit node
                 TileNode currentTile = frontier.Dequeue();
                 // if node is at ending position, we simply need to return the solution
-                if(TileNode.SamePosition(currentTile, FinishTile))
+                if(TileNode.HasSamePosition(currentTile, FinishTile))
                 {
                     // return the solution as a bitmap
-                    return drawSolution(currentTile, DRAW_WIDTH);
+                    return DrawSolution(currentTile/*, DRAW_WIDTH*/);
                 }
 
                 // Values of x and y that are used for diagonal and lateral moves
@@ -265,6 +272,7 @@ namespace Maze
                 // need to be handled uniquely due to the potential for clipping
                 // through a diagonal wall.
                 // MUST be added to frontier before lateral moves, due to setting isEmpty
+                // UP-LEFT
                 if (traversingTiles[lowerY][lowerX].isTraversable
                     && (traversingTiles[lowerY][currentTile.X].isTraversable
                     || traversingTiles[currentTile.Y][lowerX].isTraversable))
@@ -272,6 +280,7 @@ namespace Maze
                     frontier.Enqueue(new TileNode(lowerX, lowerY, diagonalDepth, currentTile));
                     traversingTiles[lowerY][lowerX].isTraversable = false;
                 }
+                // UP-RIGHT
                 if (traversingTiles[lowerY][upperX].isTraversable
                     && (traversingTiles[lowerY][currentTile.X].isTraversable
                     || traversingTiles[currentTile.Y][upperX].isTraversable))
@@ -279,6 +288,7 @@ namespace Maze
                     frontier.Enqueue(new TileNode(upperX, lowerY, diagonalDepth, currentTile));
                     traversingTiles[lowerY][upperX].isTraversable = false;
                 }
+                // DOWN-RIGHT
                 if (traversingTiles[upperY][upperX].isTraversable
                     && (traversingTiles[currentTile.Y][upperX].isTraversable
                     || traversingTiles[upperY][currentTile.X].isTraversable))
@@ -286,6 +296,7 @@ namespace Maze
                     frontier.Enqueue(new TileNode(upperX, upperY, diagonalDepth, currentTile));
                     traversingTiles[upperY][upperX].isTraversable = false;
                 }
+                // DOWN-LEFT
                 if (traversingTiles[upperY][lowerX].isTraversable
                     && (traversingTiles[upperY][currentTile.X].isTraversable
                     || traversingTiles[currentTile.Y][lowerX].isTraversable))
@@ -295,25 +306,29 @@ namespace Maze
                 }
 
                 // enqueue lateral moves
+                // UP
                 if (traversingTiles[lowerY][currentTile.X].isTraversable)
                 {
                     frontier.Enqueue(new TileNode(currentTile.X, lowerY, lateralDepth, currentTile));
                     traversingTiles[lowerY][currentTile.X].isTraversable = false;
                 }
-                if (traversingTiles[currentTile.Y][upperX].isTraversable)
-                {
-                    frontier.Enqueue(new TileNode(upperX, currentTile.Y, lateralDepth, currentTile));
-                    traversingTiles[currentTile.Y][upperX].isTraversable = false;
-                }
+                // DOWN
                 if (traversingTiles[upperY][currentTile.X].isTraversable)
                 {
                     frontier.Enqueue(new TileNode(currentTile.X, upperY, lateralDepth, currentTile));
                     traversingTiles[upperY][currentTile.X].isTraversable = false;
                 }
+                // LEFT
                 if (traversingTiles[currentTile.Y][lowerX].isTraversable)
                 {
                     frontier.Enqueue(new TileNode(lowerX, currentTile.Y, lateralDepth, currentTile));
                     traversingTiles[currentTile.Y][lowerX].isTraversable = false;
+                }
+                // RIGHT
+                if (traversingTiles[currentTile.Y][upperX].isTraversable)
+                {
+                    frontier.Enqueue(new TileNode(upperX, currentTile.Y, lateralDepth, currentTile));
+                    traversingTiles[currentTile.Y][upperX].isTraversable = false;
                 }
             }
             
@@ -321,12 +336,12 @@ namespace Maze
             return null;
         }
 
-        public Bitmap solve()
+        public Bitmap Solve()
         {
-            return solve(new BFSFrontier<TileNode>());
+            return Solve(new BFSFrontier<TileNode>());
         }
 
-        private Bitmap drawSolution(TileNode currentTile)
+        private Bitmap DrawSolution(TileNode currentTile)
         {
             Bitmap solutionBitmap = new Bitmap(this.originalBitmap);
 
@@ -346,7 +361,7 @@ namespace Maze
         /// <param name="currentTile"></param>
         /// <param name="drawWidth"></param>
         /// <returns></returns>
-        private Bitmap drawSolution(TileNode currentTile, int drawWidth)
+        private Bitmap DrawSolution(TileNode currentTile, int drawWidth)
         {
             // while the current node isn't the startTile
             while (currentTile.Prev != null)
@@ -426,7 +441,7 @@ namespace Maze
         /// </summary>
         /// <param name="c">Color (pixel) to check</param>
         /// <returns>true if it is a wall</returns>
-        private bool isWall(Color c)
+        private bool IsWall(Color c)
         {
             return (c.R <= BLACK_WALL_THRESHOLD 
                 && c.G <= BLACK_WALL_THRESHOLD 
@@ -438,7 +453,7 @@ namespace Maze
         /// </summary>
         /// <param name="c">Color (pixel) to check</param>
         /// <returns>true if it is empty</returns>
-        private bool isEmpty(Color c)
+        private bool IsEmpty(Color c)
         {
             return (c.R >= WHITE_EMPTY_THRESHOLD
                 && c.G >= WHITE_EMPTY_THRESHOLD
@@ -450,7 +465,7 @@ namespace Maze
         /// </summary>
         /// <param name="c">Color (pixel) to check</param>
         /// <returns>true if it is starting position</returns>
-        private bool isStart(Color c)
+        private bool IsStart(Color c)
         {
             return (c.R <= R_START_THRESHOLD
                 && c.G <= G_START_THRESHOLD
@@ -462,14 +477,14 @@ namespace Maze
         /// </summary>
         /// <param name="c">Color (pixel) to check</param>
         /// <returns>true if it is finishing position</returns>
-        private bool isFinish(Color c)
+        private bool IsFinish(Color c)
         {
             return (c.R >= R_FINISH_THRESHOLD
                 && c.G <= G_FINISH_THRESHOLD
                 && c.B <= B_FINISH_THRESHOLD);
         }
 
-        private Tile[][] copyTiles()
+        private Tile[][] CopyTiles()
         {
             Tile[][] tilesCopy = new Tile[this.Height][];
             for(int i = 0; i < this.Height; ++i)

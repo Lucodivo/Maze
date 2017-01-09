@@ -44,27 +44,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="util\Frontier\AStarFrontier.cs" />
-    <Compile Include="util\Frontier\BestFSAStarFrontier.cs" />
-    <Compile Include="util\Frontier\DjikstrasAStarFrontier.cs" />
-    <Compile Include="util\Frontier\BFSFrontier.cs" />
-    <Compile Include="util\Frontier\ChebyshevAStarFrontier.cs" />
-    <Compile Include="util\Frontier\DFSFrontier.cs" />
-    <Compile Include="util\Frontier\EuclidianAStarFrontier.cs" />
-    <Compile Include="util\PriorityQueue\IntComparer.cs" />
-    <Compile Include="util\Frontier\IFrontier.cs" />
-    <Compile Include="util\Frontier\ManhattanAStarFrontier.cs" />
+    <Compile Include="Frontier\AStarFrontier.cs" />
+    <Compile Include="Frontier\BestFSAStarFrontier.cs" />
+    <Compile Include="Frontier\DjikstrasAStarFrontier.cs" />
+    <Compile Include="Frontier\BFSFrontier.cs" />
+    <Compile Include="Frontier\ChebyshevAStarFrontier.cs" />
+    <Compile Include="Frontier\DFSFrontier.cs" />
+    <Compile Include="Frontier\EuclidianAStarFrontier.cs" />
+    <Compile Include="Frontier\HeuristicFrontier.cs" />
+    <Compile Include="PriorityQueue\IntComparer.cs" />
+    <Compile Include="Frontier\IFrontier.cs" />
+    <Compile Include="Frontier\ManhattanAStarFrontier.cs" />
     <Compile Include="Maze.cs" />
-    <Compile Include="util\PriorityQueue\PriorityQueue.cs" />
+    <Compile Include="PriorityQueue\PriorityQueue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TileNode.cs" />
     <Compile Include="UnacceptableMazeImageException.cs" />
-    <Compile Include="util\PriorityQueue\TileNodeComparer.cs" />
+    <Compile Include="PriorityQueue\TileNodeComparer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

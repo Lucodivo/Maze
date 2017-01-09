@@ -12,10 +12,23 @@ namespace Maze
     /// <typeparam name="T">Type of element to be stored in a min heap. Must have corresponding class that implements IComparer</typeparam>
     public class PriorityQueue<T>
     {
-        public T[] queue;
-        public int count;
+        private T[] queue;
+        private int count;
         public int capacity;
         IComparer<T> comparer;
+
+        public int Count
+        {
+            get
+            {
+                return count;
+            }
+
+            private set
+            {
+                count = value;
+            }
+        }
 
         /// <summary>
         /// 
@@ -27,7 +40,7 @@ namespace Maze
             this.capacity = cap;
             this.queue = new T[this.capacity];
             this.comparer = comp;
-            this.count = 0;
+            this.Count = 0;
         }
 
         /// <summary>
@@ -40,31 +53,31 @@ namespace Maze
         /// Adds element to queue while maintaining minheap
         /// </summary>
         /// <param name="element">element to be added to queue</param>
-        public void add(T element)
+        public void Add(T element)
         {
             // Double the queue's capacity if it is currently full
-            if (this.count == this.capacity)
+            if (this.Count == this.capacity)
             {
-                doubleCapacity();
+                DoubleCapacity();
             }
 
             // add element to end of array and float it to it's correct position
-            this.queue[this.count++] = element;
-            heapifyUp();
+            this.queue[this.Count++] = element;
+            HeapifyUp();
         }
 
         /// <summary>
         /// Removes and returns smallest value node in queue
         /// </summary>
-        public T remove()
+        public T Remove()
         {
             // return and remove highest priority element if the queue is not empty
-            if(this.count > 0)
+            if(this.Count > 0)
             {
 
                 T highestPriorityElement = this.queue[0];
-                this.queue[0] = this.queue[--this.count];
-                heapifyDown();
+                this.queue[0] = this.queue[--this.Count];
+                HeapifyDown();
                 return highestPriorityElement;
             }
 
@@ -76,10 +89,10 @@ namespace Maze
         /// View the node with minimum value (does not remove node from queue
         /// </summary>
         /// <returns>current node with minimum value</returns>
-        public T peek()
+        public T Peek()
         {
             // return highest priority element if the queue is not empty
-            if (count > 0)
+            if (Count > 0)
             {
                 return this.queue[0];
             }
@@ -91,15 +104,15 @@ namespace Maze
         /// <summary>
         /// Place the node at the end of the array into its appropriate position
         /// </summary>
-        private void heapifyUp()
+        private void HeapifyUp()
         {
-            int newIndex = this.count - 1;
+            int newIndex = this.Count - 1;
             while (newIndex > 0)
             {
                 int parentIndex = (newIndex - 1) / 2;
                 if (this.comparer.Compare(this.queue[newIndex], this.queue[parentIndex]) < 0)
                 {
-                    queueSwap(newIndex, parentIndex);
+                    QueueSwap(newIndex, parentIndex);
                     newIndex = parentIndex;
                 }
                 else
@@ -112,10 +125,10 @@ namespace Maze
         /// <summary>
         /// Place the node at the root in its appropriate position
         /// </summary>
-        private void heapifyDown()
+        private void HeapifyDown()
         {
             int rootIndex = 0;
-            int firstChildlessIndex = this.count / 2;
+            int firstChildlessIndex = this.Count / 2;
             while (rootIndex < firstChildlessIndex)
             {
                 int leftChildIndex = (rootIndex * 2) + 1;
@@ -125,12 +138,12 @@ namespace Maze
                 {
                     if (this.comparer.Compare(this.queue[leftChildIndex], this.queue[rightChildIndex]) > 0)
                     {
-                        queueSwap(rootIndex, rightChildIndex);
+                        QueueSwap(rootIndex, rightChildIndex);
                         rootIndex = rightChildIndex;
                     }
                     else
                     {
-                        queueSwap(rootIndex, leftChildIndex);
+                        QueueSwap(rootIndex, leftChildIndex);
                         rootIndex = leftChildIndex;
                     }
                 }
@@ -144,7 +157,7 @@ namespace Maze
         /// <summary>
         /// Helper function to double the array size and capacity of priority queue
         /// </summary>
-        public void doubleCapacity()
+        public void DoubleCapacity()
         {
             T[] newQueue = new T[this.capacity * 2];
             Array.Copy(this.queue, newQueue, this.capacity);
@@ -155,11 +168,17 @@ namespace Maze
         /// <summary>
         /// Helper function for swapping values in queue
         /// </summary>
-        private void queueSwap(int index1, int index2)
+        private void QueueSwap(int index1, int index2)
         {
             T tmp = this.queue[index1];
             this.queue[index1] = this.queue[index2];
             this.queue[index2] = tmp;
+        }
+
+        public void Clear()
+        {
+            this.Count = 0;
+            Array.Clear(this.queue, 0, this.capacity);
         }
     }
 }

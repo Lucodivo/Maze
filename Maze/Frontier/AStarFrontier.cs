@@ -10,10 +10,9 @@ namespace Maze
     /// An abstract class that uses the A* algorithm to provide a Frontier of TileNodes
     /// to be expanded. The heuristic function must be implemented in the concrete class
     /// </summary>
-    abstract class AStarFrontier : IFrontier<TileNode>
+    public abstract class AStarFrontier : HeuristicFrontier<TileNode>
     {
         PriorityQueue<TileNode> queue;
-        protected TileNode goal;
         protected float hScale;
 
         /// <summary>
@@ -22,9 +21,9 @@ namespace Maze
         /// <param name="goal"></param>
         /// <param name="initCap"></param>
         /// <param name="hScale"></param>
-        public AStarFrontier(TileNode goal, int initCap = 16, float hScale = 1.0f)
+        public AStarFrontier(TileNode goal = null, int initCap = 16, float hScale = 1.0f)
         {
-            this.goal = goal;
+            this.Goal = goal;
             this.hScale = hScale;
             queue = new PriorityQueue<TileNode>(TileNodeComparer.Instance(), initCap);
         }
@@ -34,33 +33,38 @@ namespace Maze
         /// <summary>
         /// Returns the next TileNode in the Frontier to be expanded
         /// </summary>
-        public TileNode Dequeue()
+        public override TileNode Dequeue()
         {
-            return queue.remove();
+            return queue.Remove();
         }
 
         /// <summary>
         /// Manipulates the Tilenode passed using a heuristic function and adds it to Frontier
         /// </summary>
         /// <param name="element">TileNode being added to Frontier</param>
-        public void Enqueue(TileNode element)
+        public override void Enqueue(TileNode element)
         {
-            heuristic(ref element);
-            queue.add(element);
+            Heuristic(ref element);
+            queue.Add(element);
         }
 
         /// <summary>
         /// Heuristic function to manipulate the cost of a TileNode
         /// </summary>
         /// <param name="element">TileNode who's cost will be changed</param>
-        abstract protected void heuristic(ref TileNode element);
+        abstract protected void Heuristic(ref TileNode element);
 
         /// <summary>
         /// Returns true if the Frontier contains no TileNodes
         /// </summary>
-        public bool isEmpty()
+        public override bool IsEmpty()
         {
-            return (queue.count == 0);
+            return (queue.Count == 0);
+        }
+
+        public override void Clear()
+        {
+            queue.Clear();
         }
     }
 }

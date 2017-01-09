@@ -7,35 +7,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Maze.Tests
+namespace MazeTests
 {
     [TestClass()]
-    public class MazeTests
+    public class MazeSolverTests
     {
         // test maze image location
-        private const String MAZE_PICTURE_1 = "..\\..\\..\\TestData\\maze1.png";
-        private const String MAZE_PICTURE_2 = "..\\..\\..\\TestData\\maze2.png";
-        private const String MAZE_PICTURE_3 = "..\\..\\..\\TestData\\maze3.png";
-        private const String MAZE_PICTURE_4 = "..\\..\\..\\TestData\\maze4.jpg";
-        private const String MAZE_PICTURE_5 = "..\\..\\..\\TestData\\maze5.bmp";
-        private const String MAZE_NO_SOLUTION = "..\\..\\..\\TestData\\no_solution_maze.bmp";
-        private const String MAZE_LARGE = "..\\..\\..\\TestData\\large_maze.png";
-        private const String MAZE_CAVE = "..\\..\\..\\TestData\\maze_cave.jpg";
-        private const String MAZE_DIVIDE_LINE = "..\\..\\..\\TestData\\maze_divide_line.jpg";
-        private const String MAZE_TEMPLATE = "..\\..\\..\\TestData\\maze_template.jpg";
-        private const String MAZE_NOT_A_MAZE = "..\\..\\..\\TestData\\maze_not_a_maze.jpg";
+        public const String MAZE_PICTURE_1 = "..\\..\\..\\TestData\\maze1.png";
+        public const String MAZE_PICTURE_2 = "..\\..\\..\\TestData\\maze2.png";
+        public const String MAZE_PICTURE_3 = "..\\..\\..\\TestData\\maze3.png";
+        public const String MAZE_PICTURE_4 = "..\\..\\..\\TestData\\maze4.jpg";
+        public const String MAZE_PICTURE_5 = "..\\..\\..\\TestData\\maze5.bmp";
+        public const String MAZE_NO_SOLUTION = "..\\..\\..\\TestData\\no_solution_maze.bmp";
+        public const String MAZE_LARGE = "..\\..\\..\\TestData\\large_maze.png";
+        public const String MAZE_CAVE = "..\\..\\..\\TestData\\maze_cave.jpg";
+        public const String MAZE_DIVIDE_LINE = "..\\..\\..\\TestData\\maze_divide_line.jpg";
+        public const String MAZE_TEMPLATE = "..\\..\\..\\TestData\\maze_template.jpg";
+        public const String MAZE_NOT_A_MAZE = "..\\..\\..\\TestData\\maze_not_a_maze.jpg";
         // test maze image solved saving locations
-        private const String MAZE_PICTURE_1_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze1_solved.png";
-        private const String MAZE_PICTURE_2_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze2_solved.png";
-        private const String MAZE_PICTURE_3_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze3_solved.png";
-        private const String MAZE_PICTURE_4_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze4_solved.jpg";
-        private const String MAZE_PICTURE_5_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze5_solved.bmp";
-        private const String MAZE_LARGE_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\large_maze_solved.png";
-        private const String MAZE_CAVE_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze_cave_solved.jpg";
-        private const String MAZE_DIVIDE_LINE_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze_divide_line_solved.jpg";
-        private const String MAZE_TEMPLATE_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze_template_solved.jpg";
+        public const String MAZE_PICTURE_1_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze1_solved.png";
+        public const String MAZE_PICTURE_2_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze2_solved.png";
+        public const String MAZE_PICTURE_3_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze3_solved.png";
+        public const String MAZE_PICTURE_4_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze4_solved.jpg";
+        public const String MAZE_PICTURE_5_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze5_solved.bmp";
+        public const String MAZE_LARGE_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\large_maze_solved.png";
+        public const String MAZE_CAVE_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze_cave_solved.jpg";
+        public const String MAZE_DIVIDE_LINE_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze_divide_line_solved.jpg";
+        public const String MAZE_TEMPLATE_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze_template_solved.jpg";
 
-        private Maze m;
+        private MazeSolver m;
         private const bool SAVE_TEST_SOLUTIONS = true;
 
         [TestInitialize()]
@@ -50,7 +50,7 @@ namespace Maze.Tests
         [TestMethod()]
         public void Maze1_Initialization_Test()
         {
-            m = new Maze(new Bitmap(MAZE_PICTURE_1));
+            m = new MazeSolver(new Bitmap(MAZE_PICTURE_1));
 
             Assert.IsNotNull(m);
 
@@ -76,8 +76,8 @@ namespace Maze.Tests
         [TestMethod()]
         public void Solve_Maze_No_Solution_Test()
         {
-            Maze testMaze = new Maze(new Bitmap(MAZE_NO_SOLUTION));
-            Bitmap solvedMaze = testMaze.solve();
+            MazeSolver testMaze = new MazeSolver(new Bitmap(MAZE_NO_SOLUTION));
+            Bitmap solvedMaze = testMaze.Solve();
             Assert.IsNull(solvedMaze);
         }
 
@@ -86,7 +86,7 @@ namespace Maze.Tests
             "Image does not contain a start and/or end point")]
         public void Solve_Maze_Not_A_Maze_Test()
         {
-            Maze testMaze = new Maze(new Bitmap(MAZE_NOT_A_MAZE));
+            MazeSolver testMaze = new MazeSolver(new Bitmap(MAZE_NOT_A_MAZE));
         }
 
         /// <summary>
@@ -95,11 +95,11 @@ namespace Maze.Tests
         [TestMethod()]
         public void Solve_Maze1_Test()
         {
-            Maze testMaze = new Maze(new Bitmap(MAZE_PICTURE_1));
-            Bitmap solvedMaze = testMaze.solve();
+            MazeSolver testMaze = new MazeSolver(new Bitmap(MAZE_PICTURE_1));
+            Bitmap solvedMaze = testMaze.Solve();
             Assert.IsNotNull(solvedMaze);
 
-            if(SAVE_TEST_SOLUTIONS)
+            if (SAVE_TEST_SOLUTIONS)
             {
                 solvedMaze.Save(MAZE_PICTURE_1_SOLVED); // save test solution bitmap
             }
@@ -111,8 +111,8 @@ namespace Maze.Tests
         [TestMethod()]
         public void Solve_Maze2_Test()
         {
-            Maze testMaze = new Maze(new Bitmap(MAZE_PICTURE_2));
-            Bitmap solvedMaze = testMaze.solve();
+            MazeSolver testMaze = new MazeSolver(new Bitmap(MAZE_PICTURE_2));
+            Bitmap solvedMaze = testMaze.Solve();
             Assert.IsNotNull(solvedMaze);
 
             if (SAVE_TEST_SOLUTIONS)
@@ -127,8 +127,8 @@ namespace Maze.Tests
         [TestMethod()]
         public void Solve_Maze3_Test()
         {
-            Maze testMaze = new Maze(new Bitmap(MAZE_PICTURE_3));
-            Bitmap solvedMaze = testMaze.solve();
+            MazeSolver testMaze = new MazeSolver(new Bitmap(MAZE_PICTURE_3));
+            Bitmap solvedMaze = testMaze.Solve();
             Assert.IsNotNull(solvedMaze);
 
             if (SAVE_TEST_SOLUTIONS)
@@ -143,8 +143,8 @@ namespace Maze.Tests
         [TestMethod()]
         public void Solve_Maze4_JPG_Test()
         {
-            Maze testMaze = new Maze(new Bitmap(MAZE_PICTURE_4));
-            Bitmap solvedMaze = testMaze.solve();
+            MazeSolver testMaze = new MazeSolver(new Bitmap(MAZE_PICTURE_4));
+            Bitmap solvedMaze = testMaze.Solve();
             Assert.IsNotNull(solvedMaze);
 
             if (SAVE_TEST_SOLUTIONS)
@@ -159,8 +159,8 @@ namespace Maze.Tests
         [TestMethod()]
         public void Solve_Maze5_BMP_Test()
         {
-            Maze testMaze = new Maze(new Bitmap(MAZE_PICTURE_5));
-            Bitmap solvedMaze = testMaze.solve();
+            MazeSolver testMaze = new MazeSolver(new Bitmap(MAZE_PICTURE_5));
+            Bitmap solvedMaze = testMaze.Solve();
             Assert.IsNotNull(solvedMaze);
 
             if (SAVE_TEST_SOLUTIONS)
@@ -175,8 +175,8 @@ namespace Maze.Tests
         [TestMethod()]
         public void Solve_Maze_Large_Test()
         {
-            Maze testMaze = new Maze(new Bitmap(MAZE_LARGE));
-            Bitmap solvedMaze = testMaze.solve();
+            MazeSolver testMaze = new MazeSolver(new Bitmap(MAZE_LARGE));
+            Bitmap solvedMaze = testMaze.Solve();
             Assert.IsNotNull(solvedMaze);
 
             if (SAVE_TEST_SOLUTIONS)
@@ -191,8 +191,8 @@ namespace Maze.Tests
         [TestMethod()]
         public void Solve_Maze_Template_Test()
         {
-            Maze testMaze = new Maze(new Bitmap(MAZE_TEMPLATE));
-            Bitmap solvedMaze = testMaze.solve();
+            MazeSolver testMaze = new MazeSolver(new Bitmap(MAZE_TEMPLATE));
+            Bitmap solvedMaze = testMaze.Solve();
             Assert.IsNotNull(solvedMaze);
 
             if (SAVE_TEST_SOLUTIONS)
@@ -207,8 +207,8 @@ namespace Maze.Tests
         [TestMethod()]
         public void Solve_Maze_Divide_Line_Test()
         {
-            Maze testMaze = new Maze(new Bitmap(MAZE_DIVIDE_LINE));
-            Bitmap solvedMaze = testMaze.solve();
+            MazeSolver testMaze = new MazeSolver(new Bitmap(MAZE_DIVIDE_LINE));
+            Bitmap solvedMaze = testMaze.Solve();
             Assert.IsNotNull(solvedMaze);
 
             if (SAVE_TEST_SOLUTIONS)
@@ -223,8 +223,8 @@ namespace Maze.Tests
         [TestMethod()]
         public void Solve_Maze_Cave_Test()
         {
-            Maze testMaze = new Maze(new Bitmap(MAZE_CAVE));
-            Bitmap solvedMaze = testMaze.solve();
+            MazeSolver testMaze = new MazeSolver(new Bitmap(MAZE_CAVE));
+            Bitmap solvedMaze = testMaze.Solve();
             Assert.IsNotNull(solvedMaze);
 
             if (SAVE_TEST_SOLUTIONS)

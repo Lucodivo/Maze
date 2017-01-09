@@ -51,6 +51,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="FrontierTests.cs" />
     <Compile Include="PriorityQueueTests.cs" />
     <Compile Include="MazeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

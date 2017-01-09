@@ -14,6 +14,7 @@ namespace Maze
     {
         void Enqueue(T element);
         T Dequeue();
-        bool isEmpty();
+        bool IsEmpty();
+        void Clear();
     }
 }

@@ -94,7 +94,7 @@ namespace Maze
 
         public TileNode(Point point, int depth, TileNode p) : this(point.X, point.Y, depth, p) { }
 
-        public static bool SamePosition(TileNode tn1, TileNode tn2)
+        public static bool HasSamePosition(TileNode tn1, TileNode tn2)
         {
             return (tn1.X == tn2.X && tn1.Y == tn2.Y);
         }

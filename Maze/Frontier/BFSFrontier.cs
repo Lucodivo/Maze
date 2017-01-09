@@ -19,7 +19,6 @@ namespace Maze
             nodes = new Queue<T>();
         }
 
-
         public T Dequeue()
         {
             if(nodes.Count > 0)
@@ -36,9 +35,14 @@ namespace Maze
             this.nodes.Enqueue(element);
         }
 
-        public bool isEmpty()
+        public bool IsEmpty()
         {
             return (this.nodes.Count <= 0);
+        }
+
+        public void Clear()
+        {
+            nodes.Clear();
         }
     }
 }
