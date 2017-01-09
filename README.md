@@ -1,11 +1,17 @@
-Maze by Connor Haskins
+# Maze by Connor Haskins
 
 Solves Mazes that go along with the following rules:
+
 1) Start point is red
+
 2) Finishing point is blue
+
 3) All walls are black
+
 3) Maze is completely surrounded by black walls
+
 4) All other space is white
 
 Program should be called in the following manner:
-maze.exe ìsource.[bmp,png,jpg]î ìdestination.[bmp,png,jpg]î
+
+maze.exe ‚Äúsource.[bmp,png,jpg]‚Äù ‚Äúdestination.[bmp,png,jpg]‚Äù
