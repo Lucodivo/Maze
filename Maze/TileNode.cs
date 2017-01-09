@@ -12,10 +12,14 @@ namespace Maze
     /// </summary>
     public class TileNode
     {
+        // node's coordinates in the maze
         private int x;
         private int y;
+        // current cost to reach the node
         private int depth;
-        private double value;
+        // expected cost to reach the goal
+        private double cost;
+        // node that added this node to a frontier
         private TileNode prev;
 
         public int X
@@ -25,7 +29,7 @@ namespace Maze
                 return x;
             }
 
-            set
+            private set
             {
                 x = value;
             }
@@ -38,7 +42,7 @@ namespace Maze
                 return y;
             }
 
-            set
+            private set
             {
                 y = value;
             }
@@ -51,22 +55,22 @@ namespace Maze
                 return depth;
             }
 
-            set
+            private set
             {
                 depth = value;
             }
         }
 
-        public double Value
+        public double Cost
         {
             get
             {
-                return value;
+                return cost;
             }
 
             set
             {
-                this.value = value;
+                this.cost = value;
             }
         }
 
@@ -77,7 +81,7 @@ namespace Maze
                 return prev;
             }
 
-            set
+            private set
             {
                 prev = value;
             }
@@ -88,12 +92,15 @@ namespace Maze
             this.X = x;
             this.Y = y;
             this.Depth = depth;
-            this.Value = value;
+            this.Cost = value;
             this.Prev = p;
         }
 
         public TileNode(Point point, int depth, TileNode p) : this(point.X, point.Y, depth, p) { }
 
+        /// <summary>
+        /// returns true if to TileNode objects share the same coordinates
+        /// </summary>
         public static bool HasSamePosition(TileNode tn1, TileNode tn2)
         {
             return (tn1.X == tn2.X && tn1.Y == tn2.Y);

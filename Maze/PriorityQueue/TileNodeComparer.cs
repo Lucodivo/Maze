@@ -18,7 +18,7 @@ namespace Maze
         public static TileNodeComparer Instance()
         {
             // Uses lazy initialization.
-            // Note: this is not thread safe.
+            // Note: NOT thread safe.
             if (_instance == null)
             {
                 _instance = new TileNodeComparer();
@@ -32,16 +32,14 @@ namespace Maze
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        /// <returns>   >0: x costs more than y
-        ///             0: x has an equal cost to y
-        ///             &lt0: x costs less than y</returns>
+        /// <returns>   -1: x costs less than y
+        ///              1: x costs greater than or equal to y</returns>
         public int Compare(TileNode x, TileNode y)
         {
-            if(x.Value < y.Value)
+            if(x.Cost < y.Cost)
             {
                 return -1;
             }
-
             return 1;
         }
     }

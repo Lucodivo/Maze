@@ -6,9 +6,16 @@ using System.Threading.Tasks;
 
 namespace Maze
 {
+    /// <summary>
+    /// An abstract frontier class that uses heuristics to determine which
+    /// nodes should be expanded next
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class HeuristicFrontier<T> : IFrontier<T>
     {
+        // the goal node of the search
         private T goal;
+        // multiplier for heuristic function, used mainly to break ties between nodes
         private float heuristicScale;
 
         protected T Goal
@@ -42,6 +49,10 @@ namespace Maze
         public abstract void Enqueue(T element);
         public abstract bool IsEmpty();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="goal"></param>
         public void SetGoal(T goal)
         {
             this.Goal = goal;

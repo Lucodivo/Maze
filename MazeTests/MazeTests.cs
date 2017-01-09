@@ -35,14 +35,9 @@ namespace MazeTests
         public const String MAZE_DIVIDE_LINE_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze_divide_line_solved.jpg";
         public const String MAZE_TEMPLATE_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze_template_solved.jpg";
 
-        private MazeSolver m;
-        private const bool SAVE_TEST_SOLUTIONS = true;
+        public const bool SAVE_TEST_SOLUTIONS = true;
 
-        [TestInitialize()]
-        public void Initialize()
-        {
-            //
-        }
+        private MazeSolver m;
 
         /// <summary>
         /// Tests that the Maze1 initializes successfully
@@ -73,14 +68,20 @@ namespace MazeTests
             Assert.AreEqual(expectedFinishY, m.FinishTile.Y);
         }
 
+        /// <summary>
+        /// Tests that the program can handle a maze without a solution gracefully
+        /// </summary>
         [TestMethod()]
         public void Solve_Maze_No_Solution_Test()
         {
             MazeSolver testMaze = new MazeSolver(new Bitmap(MAZE_NO_SOLUTION));
-            Bitmap solvedMaze = testMaze.Solve();
+            Bitmap solvedMaze = testMaze.Solve(new ManhattanAStarFrontier());
             Assert.IsNull(solvedMaze);
         }
 
+        /// <summary>
+        /// Tests that the program will appropriately throw an exception if the image is not a maze
+        /// </summary>
         [TestMethod()]
         [ExpectedException(typeof(UnacceptableMazeImageException),
             "Image does not contain a start and/or end point")]
@@ -96,7 +97,7 @@ namespace MazeTests
         public void Solve_Maze1_Test()
         {
             MazeSolver testMaze = new MazeSolver(new Bitmap(MAZE_PICTURE_1));
-            Bitmap solvedMaze = testMaze.Solve();
+            Bitmap solvedMaze = testMaze.Solve(new ManhattanAStarFrontier());
             Assert.IsNotNull(solvedMaze);
 
             if (SAVE_TEST_SOLUTIONS)
@@ -112,7 +113,7 @@ namespace MazeTests
         public void Solve_Maze2_Test()
         {
             MazeSolver testMaze = new MazeSolver(new Bitmap(MAZE_PICTURE_2));
-            Bitmap solvedMaze = testMaze.Solve();
+            Bitmap solvedMaze = testMaze.Solve(new ManhattanAStarFrontier());
             Assert.IsNotNull(solvedMaze);
 
             if (SAVE_TEST_SOLUTIONS)
@@ -128,7 +129,7 @@ namespace MazeTests
         public void Solve_Maze3_Test()
         {
             MazeSolver testMaze = new MazeSolver(new Bitmap(MAZE_PICTURE_3));
-            Bitmap solvedMaze = testMaze.Solve();
+            Bitmap solvedMaze = testMaze.Solve(new ManhattanAStarFrontier());
             Assert.IsNotNull(solvedMaze);
 
             if (SAVE_TEST_SOLUTIONS)
@@ -144,7 +145,7 @@ namespace MazeTests
         public void Solve_Maze4_JPG_Test()
         {
             MazeSolver testMaze = new MazeSolver(new Bitmap(MAZE_PICTURE_4));
-            Bitmap solvedMaze = testMaze.Solve();
+            Bitmap solvedMaze = testMaze.Solve(new ManhattanAStarFrontier());
             Assert.IsNotNull(solvedMaze);
 
             if (SAVE_TEST_SOLUTIONS)
@@ -160,7 +161,7 @@ namespace MazeTests
         public void Solve_Maze5_BMP_Test()
         {
             MazeSolver testMaze = new MazeSolver(new Bitmap(MAZE_PICTURE_5));
-            Bitmap solvedMaze = testMaze.Solve();
+            Bitmap solvedMaze = testMaze.Solve(new ManhattanAStarFrontier());
             Assert.IsNotNull(solvedMaze);
 
             if (SAVE_TEST_SOLUTIONS)
@@ -171,12 +172,13 @@ namespace MazeTests
 
         /// <summary>
         /// Tests that the program sucessfully solves large files (and gif files)
+        /// Great for testing efficiency of algorithms
         /// </summary>
         [TestMethod()]
         public void Solve_Maze_Large_Test()
         {
             MazeSolver testMaze = new MazeSolver(new Bitmap(MAZE_LARGE));
-            Bitmap solvedMaze = testMaze.Solve();
+            Bitmap solvedMaze = testMaze.Solve(new ManhattanAStarFrontier());
             Assert.IsNotNull(solvedMaze);
 
             if (SAVE_TEST_SOLUTIONS)
@@ -186,13 +188,13 @@ namespace MazeTests
         }
 
         /// <summary>
-        /// 
+        /// Used to test heuristics and how they behave with no obstacles
         /// </summary>
         [TestMethod()]
         public void Solve_Maze_Template_Test()
         {
             MazeSolver testMaze = new MazeSolver(new Bitmap(MAZE_TEMPLATE));
-            Bitmap solvedMaze = testMaze.Solve();
+            Bitmap solvedMaze = testMaze.Solve(new ManhattanAStarFrontier());
             Assert.IsNotNull(solvedMaze);
 
             if (SAVE_TEST_SOLUTIONS)
@@ -202,13 +204,13 @@ namespace MazeTests
         }
 
         /// <summary>
-        /// 
+        /// Used to test heuristics and how they behave with a single dividing line
         /// </summary>
         [TestMethod()]
         public void Solve_Maze_Divide_Line_Test()
         {
             MazeSolver testMaze = new MazeSolver(new Bitmap(MAZE_DIVIDE_LINE));
-            Bitmap solvedMaze = testMaze.Solve();
+            Bitmap solvedMaze = testMaze.Solve(new ManhattanAStarFrontier());
             Assert.IsNotNull(solvedMaze);
 
             if (SAVE_TEST_SOLUTIONS)
@@ -218,13 +220,13 @@ namespace MazeTests
         }
 
         /// <summary>
-        /// 
+        /// Used to test heuristics and how they behave with a cave meant to trap expanding nodes
         /// </summary>
         [TestMethod()]
         public void Solve_Maze_Cave_Test()
         {
             MazeSolver testMaze = new MazeSolver(new Bitmap(MAZE_CAVE));
-            Bitmap solvedMaze = testMaze.Solve();
+            Bitmap solvedMaze = testMaze.Solve(new ManhattanAStarFrontier());
             Assert.IsNotNull(solvedMaze);
 
             if (SAVE_TEST_SOLUTIONS)

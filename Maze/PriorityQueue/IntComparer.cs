@@ -18,7 +18,7 @@ namespace Maze
         public static IntComparer Instance()
         {
             // Uses lazy initialization.
-            // Note: this is not thread safe.
+            // Note: NOT thread safe.
             if (_instance == null)
             {
                 _instance = new IntComparer();

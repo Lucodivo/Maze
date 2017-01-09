@@ -50,7 +50,7 @@
     <Compile Include="Frontier\BFSFrontier.cs" />
     <Compile Include="Frontier\ChebyshevAStarFrontier.cs" />
     <Compile Include="Frontier\DFSFrontier.cs" />
-    <Compile Include="Frontier\EuclidianAStarFrontier.cs" />
+    <Compile Include="Frontier\EuclideanAStarFrontier.cs" />
     <Compile Include="Frontier\HeuristicFrontier.cs" />
     <Compile Include="PriorityQueue\IntComparer.cs" />
     <Compile Include="Frontier\IFrontier.cs" />

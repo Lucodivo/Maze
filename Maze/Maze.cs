@@ -10,10 +10,23 @@ namespace Maze
     /// <summary>
     /// Tiles to hold the logic of the maze
     /// </summary>
-    public struct Tile
+    struct Tile
     {
         // false means the tile is a wall
-        public bool isTraversable;
+        private bool isTraversable;
+
+        public bool IsTraversable
+        {
+            get
+            {
+                return isTraversable;
+            }
+
+            set
+            {
+                isTraversable = value;
+            }
+        }
     }
 
     /// <summary>
@@ -47,7 +60,7 @@ namespace Maze
         private const int DIAGONAL_MOVE_COST = 2;
 
         // width for the solution to be drawn with
-        private const int DRAW_WIDTH = 1;
+        private const int DRAW_WIDTH = 3;
 
         // original bitmap stored for drawing solution
         private Bitmap originalBitmap;
@@ -156,7 +169,7 @@ namespace Maze
                 for(int j = 0; j < this.Width; ++j)
                 {
                     /**
-                     * TODO: Find a better way to iterate through an image besides getPixel???
+                     * TODO: Find a better way to iterate through an image besides getPixel
                      */
                     // acquire the pixel of the corresponding pixel
                     Color pixel = this.originalBitmap.GetPixel(j, i);
@@ -165,12 +178,12 @@ namespace Maze
                     if(IsWall(pixel))
                     {
                         // false represents a wall
-                        tiles[i][j].isTraversable = false;
+                        tiles[i][j].IsTraversable = false;
                     }
                     else
                     {
                         // all non-walls are traversable space
-                        tiles[i][j].isTraversable = true;
+                        tiles[i][j].IsTraversable = true;
 
                         if (IsStart(pixel))
                         {
@@ -204,13 +217,11 @@ namespace Maze
             {
                 throw (new UnacceptableMazeImageException("Image does not contain a start and/or end point"));
             }
-
-            StartTile = new TileNode();
-            StartTile.X = (topLeftStart.X + bottomRightStart.X) / 2;
-            StartTile.Y = (topLeftStart.Y + bottomRightStart.Y) / 2;
-            FinishTile = new TileNode();
-            FinishTile.X = (topLeftFinish.X + bottomRightFinish.X) / 2;
-            FinishTile.Y = (topLeftFinish.Y + bottomRightFinish.Y) / 2;
+            
+            StartTile = new TileNode(((topLeftStart.X + bottomRightStart.X) / 2), 
+                ((topLeftStart.Y + bottomRightStart.Y) / 2));
+            FinishTile = new TileNode(((topLeftFinish.X + bottomRightFinish.X) / 2),
+                ((topLeftFinish.Y + bottomRightFinish.Y) / 2));
             
         }
 
@@ -226,11 +237,13 @@ namespace Maze
         /// <returns>Maze solution as a bitmap</returns>
         public Bitmap Solve(IFrontier<TileNode> frontier)
         {
+            // empty frontier if it is not already empty
             if(!frontier.IsEmpty())
             {
                 frontier.Clear();
             }
-
+            
+            // if the frontier is a heuristic frontier, set its goal and the heuristic scale
             if(typeof(HeuristicFrontier<TileNode>).IsAssignableFrom(frontier.GetType()))
             {
                 ((HeuristicFrontier<TileNode>)frontier).SetGoal(FinishTile);
@@ -244,6 +257,7 @@ namespace Maze
                 ((HeuristicFrontier<TileNode>)frontier).SetScale(hScale);
             }
 
+            // copying the tiles allows the same MazeSolve object to solve the same maze multiple times
             Tile[][] traversingTiles = CopyTiles();
             
             frontier.Enqueue(StartTile);
@@ -257,7 +271,7 @@ namespace Maze
                 if(TileNode.HasSamePosition(currentTile, FinishTile))
                 {
                     // return the solution as a bitmap
-                    return DrawSolution(currentTile/*, DRAW_WIDTH*/);
+                    return DrawSolution(currentTile, DRAW_WIDTH);
                 }
 
                 // Values of x and y that are used for diagonal and lateral moves
@@ -267,68 +281,68 @@ namespace Maze
                 int upperY = currentTile.Y + 1;
                 int diagonalDepth = currentTile.Depth + DIAGONAL_MOVE_COST;
                 int lateralDepth = currentTile.Depth + LATERAL_MOVE_COST;
-                
+
                 // enqueue diagonal moves
+                // MUST be added to frontier before lateral moves, due to checking IsTraverable
                 // need to be handled uniquely due to the potential for clipping
-                // through a diagonal wall.
-                // MUST be added to frontier before lateral moves, due to setting isEmpty
+                // through a thin diagonal wall.
                 // UP-LEFT
-                if (traversingTiles[lowerY][lowerX].isTraversable
-                    && (traversingTiles[lowerY][currentTile.X].isTraversable
-                    || traversingTiles[currentTile.Y][lowerX].isTraversable))
+                if (traversingTiles[lowerY][lowerX].IsTraversable
+                    && (traversingTiles[lowerY][currentTile.X].IsTraversable
+                    || traversingTiles[currentTile.Y][lowerX].IsTraversable))
                 {
                     frontier.Enqueue(new TileNode(lowerX, lowerY, diagonalDepth, currentTile));
-                    traversingTiles[lowerY][lowerX].isTraversable = false;
+                    traversingTiles[lowerY][lowerX].IsTraversable = false;
                 }
                 // UP-RIGHT
-                if (traversingTiles[lowerY][upperX].isTraversable
-                    && (traversingTiles[lowerY][currentTile.X].isTraversable
-                    || traversingTiles[currentTile.Y][upperX].isTraversable))
+                if (traversingTiles[lowerY][upperX].IsTraversable
+                    && (traversingTiles[lowerY][currentTile.X].IsTraversable
+                    || traversingTiles[currentTile.Y][upperX].IsTraversable))
                 {
                     frontier.Enqueue(new TileNode(upperX, lowerY, diagonalDepth, currentTile));
-                    traversingTiles[lowerY][upperX].isTraversable = false;
+                    traversingTiles[lowerY][upperX].IsTraversable = false;
                 }
                 // DOWN-RIGHT
-                if (traversingTiles[upperY][upperX].isTraversable
-                    && (traversingTiles[currentTile.Y][upperX].isTraversable
-                    || traversingTiles[upperY][currentTile.X].isTraversable))
+                if (traversingTiles[upperY][upperX].IsTraversable
+                    && (traversingTiles[currentTile.Y][upperX].IsTraversable
+                    || traversingTiles[upperY][currentTile.X].IsTraversable))
                 {
                     frontier.Enqueue(new TileNode(upperX, upperY, diagonalDepth, currentTile));
-                    traversingTiles[upperY][upperX].isTraversable = false;
+                    traversingTiles[upperY][upperX].IsTraversable = false;
                 }
                 // DOWN-LEFT
-                if (traversingTiles[upperY][lowerX].isTraversable
-                    && (traversingTiles[upperY][currentTile.X].isTraversable
-                    || traversingTiles[currentTile.Y][lowerX].isTraversable))
+                if (traversingTiles[upperY][lowerX].IsTraversable
+                    && (traversingTiles[upperY][currentTile.X].IsTraversable
+                    || traversingTiles[currentTile.Y][lowerX].IsTraversable))
                 {
                     frontier.Enqueue(new TileNode(lowerX, upperY, diagonalDepth, currentTile));
-                    traversingTiles[upperY][lowerX].isTraversable = false;
+                    traversingTiles[upperY][lowerX].IsTraversable = false;
                 }
 
                 // enqueue lateral moves
                 // UP
-                if (traversingTiles[lowerY][currentTile.X].isTraversable)
+                if (traversingTiles[lowerY][currentTile.X].IsTraversable)
                 {
                     frontier.Enqueue(new TileNode(currentTile.X, lowerY, lateralDepth, currentTile));
-                    traversingTiles[lowerY][currentTile.X].isTraversable = false;
+                    traversingTiles[lowerY][currentTile.X].IsTraversable = false;
                 }
                 // DOWN
-                if (traversingTiles[upperY][currentTile.X].isTraversable)
+                if (traversingTiles[upperY][currentTile.X].IsTraversable)
                 {
                     frontier.Enqueue(new TileNode(currentTile.X, upperY, lateralDepth, currentTile));
-                    traversingTiles[upperY][currentTile.X].isTraversable = false;
+                    traversingTiles[upperY][currentTile.X].IsTraversable = false;
                 }
                 // LEFT
-                if (traversingTiles[currentTile.Y][lowerX].isTraversable)
+                if (traversingTiles[currentTile.Y][lowerX].IsTraversable)
                 {
                     frontier.Enqueue(new TileNode(lowerX, currentTile.Y, lateralDepth, currentTile));
-                    traversingTiles[currentTile.Y][lowerX].isTraversable = false;
+                    traversingTiles[currentTile.Y][lowerX].IsTraversable = false;
                 }
                 // RIGHT
-                if (traversingTiles[currentTile.Y][upperX].isTraversable)
+                if (traversingTiles[currentTile.Y][upperX].IsTraversable)
                 {
                     frontier.Enqueue(new TileNode(upperX, currentTile.Y, lateralDepth, currentTile));
-                    traversingTiles[currentTile.Y][upperX].isTraversable = false;
+                    traversingTiles[currentTile.Y][upperX].IsTraversable = false;
                 }
             }
             
@@ -336,15 +350,26 @@ namespace Maze
             return null;
         }
 
+        /// <summary>
+        /// Solves the maze using Breadth First Search
+        /// </summary>
+        /// <returns>Solved Bitmap</returns>
         public Bitmap Solve()
         {
             return Solve(new BFSFrontier<TileNode>());
         }
 
+        /// <summary>
+        /// Draws a single pixel wide solution onto the maze bitmap
+        /// </summary>
+        /// <param name="currentTile">The final node of a successful search</param>
+        /// <returns></returns>
         private Bitmap DrawSolution(TileNode currentTile)
         {
+            // copy bitmap so we can continue using this object to solve multiple times
             Bitmap solutionBitmap = new Bitmap(this.originalBitmap);
 
+            // Retrace the steps of the final tile and draw the solution
             while (currentTile.Prev != null)
             {
                 // set pixel of original bitmap to green (solution) and get the previous pixel
@@ -356,21 +381,25 @@ namespace Maze
         }
 
         /// <summary>
-        /// 
+        /// Draws a single pixel wide solution onto the maze bitmap
         /// </summary>
-        /// <param name="currentTile"></param>
-        /// <param name="drawWidth"></param>
+        /// <param name="currentTile">The final node of a successful search</param>
+        /// <param name="drawWidth">The desired width of the solution line</param>
         /// <returns></returns>
         private Bitmap DrawSolution(TileNode currentTile, int drawWidth)
         {
+            // copy bitmap so we can continue using this object to solve multiple times
+            Bitmap solutionBitmap = new Bitmap(this.originalBitmap);
+
             // while the current node isn't the startTile
             while (currentTile.Prev != null)
             {
-                // set pixel of original bitmap to green (solution) and get the previous pixel
-                // in the traversal
-                this.originalBitmap.SetPixel(currentTile.X, currentTile.Y, Color.Green);
+                // set pixel of bitmap to green (solution) and get the previous pixel in the traversal
+                solutionBitmap.SetPixel(currentTile.X, currentTile.Y, Color.Green);
+                // decrement width, since a single pixel has been drawn
                 int iWidth = drawWidth - 1;
                 TileNode prevTile = currentTile.Prev;
+                // expand vertical width if nodes are moving horizontally
                 bool expandVertically = (currentTile.Y == prevTile.Y);
                 if(expandVertically)
                 {
@@ -379,18 +408,18 @@ namespace Maze
                     int delta = 1;
                     while (iWidth > 0 && (canExpandDown || canExpandUp))
                     {
-                        if (canExpandUp && this.tiles[currentTile.Y + delta][currentTile.X].isTraversable)
+                        if (canExpandUp && this.tiles[currentTile.Y + delta][currentTile.X].IsTraversable)
                         {
-                            this.originalBitmap.SetPixel(currentTile.X, currentTile.Y + delta, Color.Green);
+                            solutionBitmap.SetPixel(currentTile.X, currentTile.Y + delta, Color.Green);
                             --iWidth;
                         }
                         else
                         {
                             canExpandUp = false;
                         }
-                        if (canExpandDown && this.tiles[currentTile.Y - delta][currentTile.X].isTraversable)
+                        if (canExpandDown && this.tiles[currentTile.Y - delta][currentTile.X].IsTraversable)
                         {
-                            this.originalBitmap.SetPixel(currentTile.X, currentTile.Y - delta, Color.Green);
+                            solutionBitmap.SetPixel(currentTile.X, currentTile.Y - delta, Color.Green);
                             --iWidth;
                         }
                         else
@@ -400,6 +429,7 @@ namespace Maze
                         ++delta;
                     }
                 }
+                // expand horizontal width if nodes are moving vertically
                 else
                 {
                     bool canExpandRight = true;
@@ -407,18 +437,18 @@ namespace Maze
                     int delta = 1;
                     while (iWidth > 0 && (canExpandLeft || canExpandRight))
                     {
-                        if (canExpandRight && this.tiles[currentTile.Y][currentTile.X + delta].isTraversable)
+                        if (canExpandRight && this.tiles[currentTile.Y][currentTile.X + delta].IsTraversable)
                         {
-                            this.originalBitmap.SetPixel(currentTile.X + delta, currentTile.Y, Color.Green);
+                            solutionBitmap.SetPixel(currentTile.X + delta, currentTile.Y, Color.Green);
                             --iWidth;
                         }
                         else
                         {
                             canExpandRight = false;
                         }
-                        if (canExpandLeft && this.tiles[currentTile.Y][currentTile.X - delta].isTraversable)
+                        if (canExpandLeft && this.tiles[currentTile.Y][currentTile.X - delta].IsTraversable)
                         {
-                            this.originalBitmap.SetPixel(currentTile.X - delta, currentTile.Y, Color.Green);
+                            solutionBitmap.SetPixel(currentTile.X - delta, currentTile.Y, Color.Green);
                             --iWidth;
                         }
                         else
@@ -433,7 +463,7 @@ namespace Maze
             }
 
             // return the solution as a bitmap
-            return this.originalBitmap;
+            return solutionBitmap;
         }
 
         /// <summary>
@@ -484,6 +514,9 @@ namespace Maze
                 && c.B <= B_FINISH_THRESHOLD);
         }
 
+        /// <summary>
+        /// Copies and returns the tiles in the maze
+        /// </summary>
         private Tile[][] CopyTiles()
         {
             Tile[][] tilesCopy = new Tile[this.Height][];

@@ -12,14 +12,13 @@ namespace Maze
     {
         static void Main(string[] args)
         {
-            
             if (args.Length == 2)
             {
                 try
                 {
                     Bitmap mazeBMP = new Bitmap(args[0]);
                     MazeSolver testMaze = new MazeSolver(mazeBMP);
-                    Bitmap solvedMaze = testMaze.Solve();
+                    Bitmap solvedMaze = testMaze.Solve(new ManhattanAStarFrontier());
                     if(solvedMaze != null)
                     {
                         solvedMaze.Save(args[1]);

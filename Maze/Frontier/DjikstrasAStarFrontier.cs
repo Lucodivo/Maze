@@ -17,8 +17,14 @@ namespace Maze
     {
         public DjikstrasAStarFrontier() : base(null, 16, 1.0f) { }
 
+        /// <summary>
+        /// Djikstras only takes into consideration the cost of expanding the node
+        /// f(n) = g(n)
+        /// </summary>
+        /// <param name="element">The tilenode who's cost needs to be calculated</param>
         protected override void Heuristic(ref TileNode element)
         {
+            element.Cost = element.Depth;
         }
     }
 }

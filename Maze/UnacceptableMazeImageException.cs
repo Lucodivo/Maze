@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Maze
 {
+    /// <summary>
+    /// Exception used to signify that an image is not a suitable maze image
+    /// </summary>
     public class UnacceptableMazeImageException : Exception
     {
         public UnacceptableMazeImageException() { }

@@ -30,11 +30,8 @@ namespace Maze
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <param name="comp">comparer for elements being stored in priority queue</param>
         /// <param name="cap">Initial size of queue</param>
-        /// <param name="comp"></param>
         public PriorityQueue(IComparer<T> comp, int cap)
         {
             this.capacity = cap;
@@ -42,11 +39,7 @@ namespace Maze
             this.comparer = comp;
             this.Count = 0;
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="comp"></param>
+        
         public PriorityQueue(IComparer<T> comp) : this(comp, 16) {  }
 
         /// <summary>
@@ -132,7 +125,7 @@ namespace Maze
             while (rootIndex < firstChildlessIndex)
             {
                 int leftChildIndex = (rootIndex * 2) + 1;
-                int rightChildIndex = (rootIndex * 2) + 2;
+                int rightChildIndex = leftChildIndex + 1;
                 if (this.comparer.Compare(this.queue[rootIndex], this.queue[leftChildIndex]) > 0
                     || this.comparer.Compare(this.queue[rootIndex], this.queue[rightChildIndex]) > 0)
                 {
@@ -175,6 +168,9 @@ namespace Maze
             this.queue[index2] = tmp;
         }
 
+        /// <summary>
+        /// Clears PriorityQueue of all data
+        /// </summary>
         public void Clear()
         {
             this.Count = 0;

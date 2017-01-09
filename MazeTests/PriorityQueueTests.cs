@@ -15,7 +15,6 @@ namespace MazeTests
         /// Tests PriorityQueue's expansion and that it functions properly
         /// as a min heap
         /// </summary>
-        
         [TestMethod()]
         public void IntPriorityQueueTest1()
         {
