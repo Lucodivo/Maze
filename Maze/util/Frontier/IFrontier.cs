@@ -10,7 +10,7 @@ namespace Maze
     /// Interface used to determine which elements to expand when running a search
     /// </summary>
     /// <typeparam name="T">Type of element being expanded</typeparam>
-    interface IFrontier<T>
+    public interface IFrontier<T>
     {
         void Enqueue(T element);
         T Dequeue();

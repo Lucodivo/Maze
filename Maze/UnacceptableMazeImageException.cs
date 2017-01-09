@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Maze
 {
-    class UnacceptableMazeImageException : Exception
+    public class UnacceptableMazeImageException : Exception
     {
         public UnacceptableMazeImageException() { }
 

@@ -20,7 +20,15 @@ namespace Maze
                     Bitmap mazeBMP = new Bitmap(args[0]);
                     Maze testMaze = new Maze(mazeBMP);
                     Bitmap solvedMaze = testMaze.solve();
-                    solvedMaze.Save(args[1]);
+                    if(solvedMaze != null)
+                    {
+                        solvedMaze.Save(args[1]);
+                        Console.WriteLine("Solution saved to: {0}", args[1]);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Maze has no solution");
+                    }
                 }
                 catch (ArgumentException e)
                 {
@@ -31,6 +39,11 @@ namespace Maze
                 {
                     Debug.WriteLine("Exception caught: {0}", e);
                     Console.WriteLine("Cannot write to specified location");
+                }
+                catch (UnacceptableMazeImageException e)
+                {
+                    Debug.WriteLine("Exception caught: {0}", e);
+                    Console.WriteLine(e.Message);
                 }
             }
             else

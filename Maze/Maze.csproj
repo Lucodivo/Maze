@@ -51,7 +51,6 @@
     <Compile Include="util\Frontier\ChebyshevAStarFrontier.cs" />
     <Compile Include="util\Frontier\DFSFrontier.cs" />
     <Compile Include="util\Frontier\EuclidianAStarFrontier.cs" />
-    <Compile Include="util\Frontier\Prototype.cs" />
     <Compile Include="util\PriorityQueue\IntComparer.cs" />
     <Compile Include="util\Frontier\IFrontier.cs" />
     <Compile Include="util\Frontier\ManhattanAStarFrontier.cs" />
