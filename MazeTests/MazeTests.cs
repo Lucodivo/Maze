@@ -35,6 +35,10 @@ namespace MazeTests
         public const String MAZE_CAVE_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze_cave_solved.jpg";
         public const String MAZE_DIVIDE_LINE_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze_divide_line_solved.jpg";
         public const String MAZE_TEMPLATE_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze_template_solved.jpg";
+        public const String MAZE_PICTURE_MULT1_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze_mult1_solved.png";
+        public const String MAZE_PICTURE_MULT2_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze_mult2_solved.png";
+        public const String MAZE_PICTURE_MULT3_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze_mult3_solved.png";
+        public const String MAZE_PICTURE_MULT4_SOLVED = "..\\..\\..\\TestResults\\TestMazeSolutions\\maze_mult4_solved.png";
 
         public const bool SAVE_TEST_SOLUTIONS = true;
 
@@ -185,6 +189,34 @@ namespace MazeTests
             if (SAVE_TEST_SOLUTIONS)
             {
                 solvedMaze.Save(MAZE_LARGE_SOLVED); // save test solution bitmap
+            }
+        }
+
+        /// <summary>
+        /// Tests that a single maze object can solve a maze multiple ways
+        /// </summary>
+        [TestMethod()]
+        public void Solve_Maze_Multiple_Test()
+        {
+            MazeSolver testMaze = new MazeSolver(new Bitmap(MAZE_PICTURE_5));
+            Bitmap solvedMaze1 = testMaze.Solve(new BestFSAStarFrontier());
+            Assert.IsNotNull(solvedMaze1);
+
+            Bitmap solvedMaze2 = testMaze.Solve(new DjikstrasAStarFrontier());
+            Assert.IsNotNull(solvedMaze2);
+
+            Bitmap solvedMaze3 = testMaze.Solve(new EuclideanAStarFrontier());
+            Assert.IsNotNull(solvedMaze3);
+
+            Bitmap solvedMaze4 = testMaze.Solve(new ManhattanAStarFrontier());
+            Assert.IsNotNull(solvedMaze4);
+
+            if (SAVE_TEST_SOLUTIONS)
+            {
+                solvedMaze1.Save(MAZE_PICTURE_MULT1_SOLVED); // save test solution bitmap
+                solvedMaze2.Save(MAZE_PICTURE_MULT2_SOLVED); // save test solution bitmap
+                solvedMaze3.Save(MAZE_PICTURE_MULT3_SOLVED); // save test solution bitmap
+                solvedMaze4.Save(MAZE_PICTURE_MULT4_SOLVED); // save test solution bitmap
             }
         }
 

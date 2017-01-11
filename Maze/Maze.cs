@@ -285,67 +285,55 @@ namespace Maze
                 // need to be handled uniquely due to the potential for clipping
                 // through a thin diagonal wall.
                 // UP-LEFT
-                if (traversingTiles[lowerY][lowerX].IsTraversable
-                    && (traversingTiles[lowerY][currentTile.X].IsTraversable
-                    || traversingTiles[currentTile.Y][lowerX].IsTraversable))
+                if(traversingTiles[lowerY][currentTile.X].IsTraversable
+                    || traversingTiles[currentTile.Y][lowerX].IsTraversable)
                 {
-                    frontier.Enqueue(new TileNode(lowerX, lowerY, diagonalDepth, currentTile));
-                    traversingTiles[lowerY][lowerX].IsTraversable = false;
+                    AddToFrontier(lowerX, lowerY, lateralDepth, currentTile, frontier, traversingTiles);
                 }
                 // UP-RIGHT
-                if (traversingTiles[lowerY][upperX].IsTraversable
-                    && (traversingTiles[lowerY][currentTile.X].IsTraversable
-                    || traversingTiles[currentTile.Y][upperX].IsTraversable))
+                if (traversingTiles[lowerY][currentTile.X].IsTraversable
+                    || traversingTiles[currentTile.Y][upperX].IsTraversable)
                 {
-                    frontier.Enqueue(new TileNode(upperX, lowerY, diagonalDepth, currentTile));
-                    traversingTiles[lowerY][upperX].IsTraversable = false;
+                    AddToFrontier(upperX, lowerY, lateralDepth, currentTile, frontier, traversingTiles);
                 }
                 // DOWN-RIGHT
-                if (traversingTiles[upperY][upperX].IsTraversable
-                    && (traversingTiles[currentTile.Y][upperX].IsTraversable
-                    || traversingTiles[upperY][currentTile.X].IsTraversable))
+                if (traversingTiles[currentTile.Y][upperX].IsTraversable
+                    || traversingTiles[upperY][currentTile.X].IsTraversable)
                 {
-                    frontier.Enqueue(new TileNode(upperX, upperY, diagonalDepth, currentTile));
-                    traversingTiles[upperY][upperX].IsTraversable = false;
+                    AddToFrontier(upperX, upperY, lateralDepth, currentTile, frontier, traversingTiles);
                 }
                 // DOWN-LEFT
-                if (traversingTiles[upperY][lowerX].IsTraversable
-                    && (traversingTiles[upperY][currentTile.X].IsTraversable
-                    || traversingTiles[currentTile.Y][lowerX].IsTraversable))
+                if (traversingTiles[upperY][currentTile.X].IsTraversable
+                    || traversingTiles[currentTile.Y][lowerX].IsTraversable)
                 {
-                    frontier.Enqueue(new TileNode(lowerX, upperY, diagonalDepth, currentTile));
-                    traversingTiles[upperY][lowerX].IsTraversable = false;
+                    AddToFrontier(lowerX, upperY, lateralDepth, currentTile, frontier, traversingTiles);
                 }
 
                 // enqueue lateral moves
                 // UP
-                if (traversingTiles[lowerY][currentTile.X].IsTraversable)
-                {
-                    frontier.Enqueue(new TileNode(currentTile.X, lowerY, lateralDepth, currentTile));
-                    traversingTiles[lowerY][currentTile.X].IsTraversable = false;
-                }
+                AddToFrontier(currentTile.X, lowerY, lateralDepth, currentTile, frontier, traversingTiles);
                 // DOWN
-                if (traversingTiles[upperY][currentTile.X].IsTraversable)
-                {
-                    frontier.Enqueue(new TileNode(currentTile.X, upperY, lateralDepth, currentTile));
-                    traversingTiles[upperY][currentTile.X].IsTraversable = false;
-                }
+                AddToFrontier(currentTile.X, upperY, lateralDepth, currentTile, frontier, traversingTiles);
                 // LEFT
-                if (traversingTiles[currentTile.Y][lowerX].IsTraversable)
-                {
-                    frontier.Enqueue(new TileNode(lowerX, currentTile.Y, lateralDepth, currentTile));
-                    traversingTiles[currentTile.Y][lowerX].IsTraversable = false;
-                }
+                AddToFrontier(lowerX, currentTile.Y, lateralDepth, currentTile, frontier, traversingTiles);
                 // RIGHT
-                if (traversingTiles[currentTile.Y][upperX].IsTraversable)
-                {
-                    frontier.Enqueue(new TileNode(upperX, currentTile.Y, lateralDepth, currentTile));
-                    traversingTiles[currentTile.Y][upperX].IsTraversable = false;
-                }
+                AddToFrontier(upperX, currentTile.Y, lateralDepth, currentTile, frontier, traversingTiles);
             }
             
             // return null if no solution is found
             return null;
+        }
+
+        private void AddToFrontier(int x, int y, int depth, TileNode parentTile, IFrontier<TileNode> frontier, Tile[][] tiles)
+        {
+            if (tiles[y][x].IsTraversable)
+            {
+                frontier.Enqueue(new TileNode(x, y, depth, parentTile));
+                tiles[y][x].IsTraversable = false;
+#if DEBUG
+
+#endif
+            }
         }
 
         /// <summary>
